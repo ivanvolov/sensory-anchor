@@ -1,9 +1,7 @@
 <!doctype html>
-<html lang="uk">
-<head>
-<meta charset="utf-8">
+<html lang="uk"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Sensory Anchor — 5·4·3·2·1 на Apple Watch</title>
+<title>Sensory Anchor — як це працює</title>
 <style>
 :root{
   --page:#0B0B0C; --page2:#131316; --fg:#EDEDEF; --dim:#8B8B93; --line:#26262B;
@@ -219,18 +217,65 @@ section{padding:52px 0;border-bottom:1px solid var(--line)}
 
 footer{padding:46px 0;color:var(--dim);font-size:13.5px;line-height:1.7;max-width:660px}
 footer code{background:var(--page2);padding:1px 6px;border-radius:5px;font-size:12.5px}
-</style>
-</head>
+
+body{background:#08090A;display:flex;flex-direction:column;align-items:center;
+     justify-content:center;min-height:100vh;padding:40px 20px;gap:26px}
+body.auto{background:#08090A}
+.stage{position:relative}
+.watch{width:264px;height:320px;border-radius:68px;padding:13px}
+.watch::after{top:92px;height:40px}
+.watch::before{top:156px;height:31px}
+.screen{border-radius:56px}
+.sc{padding:19px 22px 20px}
+.big{font-size:60px}
+.watch.buzz{animation:buzz .85s cubic-bezier(.36,.07,.19,.97)}
+@keyframes buzz{0%,100%{transform:translateX(0)}
+  10%,30%,50%,70%{transform:translateX(-3.5px) rotate(-.5deg)}
+  20%,40%,60%,80%{transform:translateX(3.5px) rotate(.5deg)}}
+#sc.swap{animation:swap .34s cubic-bezier(.22,.9,.3,1) both}
+@keyframes swap{from{opacity:0;transform:translateY(9px) scale(.975)}}
+.vine .pop{transform-box:fill-box;transform-origin:center;
+  animation:pop .5s cubic-bezier(.34,1.6,.64,1) both}
+@keyframes pop{from{transform:scale(0) rotate(-40deg)}}
+.st-fauna .vine .stem{animation:none;transition:stroke-dashoffset .9s linear}
+.btn.press{transform:scale(.94);filter:brightness(1.12)}
+.btn{transition:transform .12s ease,filter .12s ease}
+.wave{display:flex;align-items:center;gap:4px;height:46px}
+.wave i{width:5px;border-radius:3px;background:#F2B33D;height:12px;
+  animation:wv calc(.62s + var(--i) * .07s) ease-in-out infinite alternate;
+  animation-delay:calc(var(--i) * -.11s)}
+@keyframes wv{from{height:8px;opacity:.55}to{height:42px;opacity:1}}
+.rec-t{font-size:14px;font-weight:800;color:#F2B33D;margin-top:9px}
+.said{font-size:14.5px;line-height:1.45;text-align:center;color:#E9F3E2;font-weight:600;
+  text-shadow:0 2px 10px rgba(0,0,0,.6)}
+.saved{display:flex;align-items:center;gap:6px;margin-top:13px;color:#8FC98A;
+  font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
+.saved svg{width:15px;height:15px}
+#cursor{position:fixed;left:0;top:0;width:38px;height:38px;margin:-19px 0 0 -19px;
+  border-radius:50%;border:2px solid rgba(255,255,255,.85);background:rgba(255,255,255,.14);
+  backdrop-filter:blur(1px);pointer-events:none;opacity:0;z-index:50;
+  transition:transform .6s cubic-bezier(.3,.8,.3,1),opacity .3s}
+#cursor.tap{background:rgba(255,255,255,.5);transform-origin:center}
+.cap{color:#6E6E77;font-size:13.5px;text-align:center;line-height:1.6;max-width:420px}
+.cap b{color:#D6D6DC;font-weight:600}
+#play{appearance:none;border:1px solid #2A2A31;background:#141418;color:#D6D6DC;
+  font:inherit;font-size:13.5px;padding:10px 20px;border-radius:999px;cursor:pointer}
+#play:hover{border-color:#43434E}
+body.auto .cap,body.auto #play{display:none}
+</style></head>
 <body>
-<div class="wrap">
-  <header>
-    <h1 id="h1"></h1>
-    <p class="lede" id="lede"></p>
-    <div class="bar" id="bar"></div>
-  </header>
-  <main id="board"></main>
-  <footer id="foot"></footer>
+<div class="stage st-fauna">
+  <div class="watch"><div class="screen">
+    <div class="scene">
+      <div class="fx-shaft"></div>
+    </div>
+    <div class="sc" id="sc"></div>
+  </div></div>
 </div>
+<p class="cap"><b>Клікай сам</b> — таймер добігає, далі п'ять кроків: «Готово» або надиктувати.
+Або натисни кнопку, і воно програє весь прохід саме.</p>
+<button id="play">Програти весь прохід</button>
+<div id="cursor"></div>
 <script>
 /* Hand-authored SVG. No generated imagery — deliberate: the recipient
    has publicly said AI art is a dealbreaker for her projects. */
@@ -405,232 +450,199 @@ const BOTANY = (() => {
     `<div class="fx-flies">${Array.from({ length: n }, (_, i) =>
       `<i style="--i:${i}"></i>`).join("")}</div>`;
 
-  return { back, mid, front, topLeft, topRight, sideL, sideR, vine, bloom, fireflies };
+  return { LEAF, back, mid, front, topLeft, topRight, sideL, sideR, vine, bloom, fireflies };
 })();
 
-/* ------------------------------------------------------------------ copy */
-const T = {
-  uk: {
-    h1: "Sensory Anchor — 5·4·3·2·1 на Apple Watch",
-    lede: `Три екрани: <b>таймер</b> → <b>крок</b> → <b>готово</b>. Таймер зудить кожні 30 хвилин,
-           ти називаєш 5 речей, які бачиш, 4 які чуєш, 3 дотики, 2 запахи, 1 смак.
-           Один тап «Готово» або надиктувати голосом — і воно збережеться.
-           Нижче той самий продукт у п'яти різних візуальних мовах.`,
-    lang: "Мова макетів",
-    screens: ["Таймер", "Крок", "Готово"],
-    timerSub: "до наступної зупинки",
-    ritual: "5·4·3·2·1",
-    ok: "Готово", say: "Сказати",
-    doneTitle: "Ти впорався", doneSub: "Ще раз через 30 хв?",
-    yes: "Так", later: "Пізніше",
-    senses: [
-      { name: "Бачу",      n: 5, sub: "речей навколо",   icon: "eye"   },
-      { name: "Чую",       n: 4, sub: "звуки",           icon: "ear"   },
-      { name: "Відчуваю",  n: 3, sub: "дотики тілом",    icon: "hand"  },
-      { name: "Нюхаю",     n: 2, sub: "запахи",          icon: "nose"  },
-      { name: "Смакую",    n: 1, sub: "смак у роті",     icon: "taste" },
-    ],
-    beasts: [
-      { sense:"Бачу",     name:"Павук-стрибун", latin:"Salticidae",          art:"spider",  why:"Найгостріший зір серед павуків: головні очі мають рухому сітківку — він буквально наводить фокус." },
-      { sense:"Чую",      name:"Сипуха",        latin:"Tyto alba",           art:"owl",     why:"Вушні отвори розташовані асиметрично, тому вона чує здобич у трьох вимірах у повній темряві." },
-      { sense:"Відчуваю", name:"Зіркорил",      latin:"Condylura cristata",  art:"mole",    why:"22 промені, ~25 000 органів Еймера — найчутливіший дотиковий орган, виміряний у ссавців." },
-      { sense:"Нюхаю",    name:"Ведмідь",       latin:"Ursidae",             art:"bear",    why:"Нюховий епітелій у рази більший, ніж у собаки-шукача." },
-      { sense:"Смакую",   name:"Сом",           latin:"Siluriformes",        art:"catfish", why:"Смакові рецептори по всьому тілу — приблизно 175 000. Він пробує воду на смак усім собою." },
-    ],
-    styles: [
-      { id:"native", name:"watchOS Native", tag:"контроль",
-        why:"Рідний словник системи: чорний OLED, SF, зелений акцент, капсульні кнопки на всю ширину. Нічого не вигадано — і саме тому воно не сперечається з рештою годинника о 3-й ночі." },
-      { id:"clay", name:"Warm iOS", tag:"відполірований",
-        why:"Той самий теплий, не-кричущий настрій, але вилизаний до рівня системного застосунку: айфонна типографіка, волосяні межі в пів пікселя, багатошарові тіні замість товстого пластику й ледь помітне паперове зерно. Не «скло», а акуратна річ." },
-      { id:"fauna", name:"Fauna", tag:"живий · анімований",
-        why:"Не іконки на темному тлі, а маленький живий куток: листя заростає екран з країв і гойдається, крізь крону б'є промінь, у повітрі літають світлячки. Таймер — не коло, а лоза, що проростає листочками. Наприкінці розпускається квітка. Тварина дихає й кліпає. Кожне чуття отримує рекордсменку по ньому." },
-    ],
-    foot: `Усі 15 екранів — рукописні SVG і CSS, без жодної згенерованої картинки.
-           Файли: <code>index.html</code>, <code>app.js</code>, <code>art.js</code>.`,
-  },
-  en: {
-    h1: "Sensory Anchor — 5·4·3·2·1 on Apple Watch",
-    lede: `Three screens: <b>timer</b> → <b>step</b> → <b>done</b>. The timer nags every 30 minutes,
-           you name 5 things you see, 4 you hear, 3 you feel, 2 you smell, 1 you taste.
-           One tap on Done, or dictate it — either way it gets saved.
-           Below: the same product in five different visual languages.`,
-    lang: "Mockup language",
-    screens: ["Timer", "Step", "Done"],
-    timerSub: "until the next stop",
-    ritual: "5·4·3·2·1",
-    ok: "Done", say: "Say it",
-    doneTitle: "You did it", doneSub: "Again in 30 min?",
-    yes: "Yes", later: "Later",
-    senses: [
-      { name:"See",   n:5, sub:"things around you", icon:"eye"   },
-      { name:"Hear",  n:4, sub:"sounds",            icon:"ear"   },
-      { name:"Feel",  n:3, sub:"points of contact", icon:"hand"  },
-      { name:"Smell", n:2, sub:"smells",            icon:"nose"  },
-      { name:"Taste", n:1, sub:"taste in my mouth", icon:"taste" },
-    ],
-    beasts: [
-      { sense:"See",   name:"Jumping spider",  latin:"Salticidae",         art:"spider",  why:"Sharpest eyes of any spider — the principal eyes have a moving retina, so it literally aims its focus." },
-      { sense:"Hear",  name:"Barn owl",        latin:"Tyto alba",          art:"owl",     why:"Asymmetric ear openings let it locate prey in three dimensions in total darkness." },
-      { sense:"Feel",  name:"Star-nosed mole", latin:"Condylura cristata", art:"mole",    why:"22 rays, ~25,000 Eimer's organs — the most sensitive touch organ measured in any mammal." },
-      { sense:"Smell", name:"Bear",            latin:"Ursidae",            art:"bear",    why:"Olfactory epithelium several times larger than a tracking dog's." },
-      { sense:"Taste", name:"Catfish",         latin:"Siluriformes",       art:"catfish", why:"Taste buds over its entire body — around 175,000. It tastes the water with all of itself." },
-    ],
-    styles: [
-      { id:"native", name:"watchOS Native", tag:"control",
-        why:"The system's own vocabulary: black OLED, SF, green accent, full-width capsule buttons. Nothing invented — which is exactly why it won't fight the rest of the watch at 3am." },
-      { id:"clay", name:"Warm iOS", tag:"polished",
-        why:"The same warm, non-shouting mood, but finished to system-app standard: iOS typography, half-pixel hairlines, layered shadows instead of thick plastic, and a faint paper tooth. Not glass — just a well-made object." },
-      { id:"fauna", name:"Fauna", tag:"living · animated",
-        why:"Not icons on a dark field but a small living corner: foliage overgrows the edges and sways, a shaft of light comes through the canopy, fireflies drift past. The timer is a vine that sprouts leaves as it grows. A flower opens at the end. The animal breathes and blinks. Each sense gets its record-holder." },
-    ],
-    foot: `All 15 screens are hand-written SVG and CSS, with zero generated imagery.
-           Files: <code>index.html</code>, <code>app.js</code>, <code>art.js</code>.`,
-  },
-};
+document.querySelector('.scene').insertAdjacentHTML('beforeend',
+  BOTANY.topLeft + BOTANY.topRight + BOTANY.sideL + BOTANY.sideR +
+  BOTANY.fireflies(5) + BOTANY.back + BOTANY.mid + BOTANY.front);
+/* Interactive Fauna prototype: one watch, the whole 5-4-3-2-1 loop.
+   ?auto=1 plays the run hands-free (used for the screen recording). */
 
-/* ------------------------------------------------------------ state */
-let LANG = "uk";
-let SENSE = 0;              /* which of the five steps screen 2 shows */
-const L = () => T[LANG];
+const STEPS = [
+  { name:"Бачу",     n:5, sub:"речей навколо", art:"spider",  latin:"Павук-стрибун",
+    said:"дерево за вікном, чашка, лампа, кабель, кіт" },
+  { name:"Чую",      n:4, sub:"звуки",         art:"owl",     latin:"Сипуха",
+    said:"холодильник, машина надворі, годинник, власний подих" },
+  { name:"Відчуваю", n:3, sub:"дотики тілом",  art:"mole",    latin:"Зіркорил",
+    said:"спинка стільця, шкарпетки, тепло від чашки" },
+  { name:"Нюхаю",    n:2, sub:"запахи",        art:"bear",    latin:"Ведмідь",
+    said:"кава і мокрий асфальт" },
+  { name:"Смакую",   n:1, sub:"смак у роті",   art:"catfish", latin:"Сом",
+    said:"м'ята" },
+];
 
-/* ------------------------------------------------------------ screens */
-function ring(pct, label, sub, styleId) {
-  /* r=56 → circumference 351.86 */
+const TOTAL = 7;              /* seconds on the demo timer, not 30 min */
+const LEAVES = 9;
+
+/* Leaves sit at fixed angles and appear one by one as the vine grows,
+   instead of sliding around the way a redistributing set would. */
+function vineAt(pct) {
   const C = 351.86, off = C * (1 - pct);
-  return `
-    <svg class="ring" viewBox="0 0 128 128">
-      <circle class="trk" cx="64" cy="64" r="56" fill="none" stroke-width="7"/>
-      <circle class="val" cx="64" cy="64" r="56" fill="none" stroke-width="7"
-              stroke-dasharray="${C}" stroke-dashoffset="${off}"
+  let leaves = "";
+  for (let i = 0; i < LEAVES; i++) {
+    const frac = i / (LEAVES - 1);
+    if (frac > pct + 0.02) continue;
+    const deg = -90 + frac * 360, rad = (deg * Math.PI) / 180;
+    const x = 64 + 56 * Math.cos(rad), y = 64 + 56 * Math.sin(rad);
+    const fresh = frac > pct - 0.12 ? ' class="pop"' : "";
+    leaves += `<g${fresh} transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${(deg + (i % 2 ? 128 : -128)).toFixed(1)}) scale(.5)">
+        <path d="${BOTANY.LEAF}" fill="#7FC07A"/></g>`;
+  }
+  return `<svg class="ring vine" viewBox="0 0 128 128">
+      <circle cx="64" cy="64" r="56" fill="none" stroke="#1E3B28" stroke-width="6"/>
+      <circle class="stem" cx="64" cy="64" r="56" fill="none" stroke="#4E9B55" stroke-width="6"
+              stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${off.toFixed(1)}"
               transform="rotate(-90 64 64)"/>
-      <text x="64" y="66" text-anchor="middle" dominant-baseline="middle"
-            fill="currentColor" font-size="30" font-family="inherit"
-            font-weight="${styleId === "clay" || styleId === "fauna" ? 600 : 300}"
-            letter-spacing="-1">${label}</text>
+      ${leaves}
     </svg>`;
 }
 
-/* Fauna is the only style with an environment behind the content. */
-function scene(st, kind) {
-  if (st.id !== "fauna") return "";
-  return `<div class="scene">
-    <div class="fx-shaft"></div>
-    ${BOTANY.topLeft}${BOTANY.topRight}${BOTANY.sideL}${BOTANY.sideR}
-    ${BOTANY.fireflies(kind === "done" ? 6 : 4)}
-    ${BOTANY.back}${BOTANY.mid}${BOTANY.front}
-  </div>`;
+const mmss = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
+const sc = () => document.getElementById("sc");
+
+let state = "timer", step = 0, left = TOTAL, tick = null, done = [];
+
+function paint(html) {
+  const el = sc();
+  el.classList.remove("swap");
+  void el.offsetWidth;                 /* restart the transition */
+  el.innerHTML = html;
+  el.classList.add("swap");
+  if (window.__mark) window.__mark(state, step);
 }
 
-function screenTimer(st) {
-  const t = L();
-  const dial = st.id === "fauna"
-    ? `<div class="dial">${BOTANY.vine(0.58)}<span class="dial-t">12:40</span></div>`
-    : ring(0.58, "12:40", "", st.id);
-  return scene(st, "timer") + `<div class="sc">
-    <div class="sc-top">${t.ritual}</div>
+function viewTimer() {
+  const pct = (TOTAL - left) / TOTAL;
+  paint(`<div class="sc-top">5·4·3·2·1</div>
     <div class="sc-mid">
-      ${dial}
-      <div class="sub">${t.timerSub}</div>
-    </div>
-  </div>`;
+      <div class="dial">${vineAt(pct)}<span class="dial-t">${mmss(left)}</span></div>
+      <div class="sub">до наступної зупинки</div>
+    </div>`);
 }
 
-function screenStep(st) {
-  const t = L(), s = t.senses[SENSE];
-  const art = st.id === "fauna"
-    ? `<div class="beast">${FAUNA[t.beasts[SENSE].art]}</div>
-       <div class="latin">${t.beasts[SENSE].name}</div>`
-    : `<div class="glyph">${ICON[s.icon]}</div>`;
-  return scene(st, "step") + `<div class="sc">
-    <div class="sc-top">${s.name}</div>
+function viewStep() {
+  const s = STEPS[step];
+  paint(`<div class="sc-top">${s.name}</div>
     <div class="sc-mid">
-      ${art}
+      <div class="beast">${FAUNA[s.art]}</div>
+      <div class="latin">${s.latin}</div>
       <div class="big">${s.n}</div>
       <div class="sub">${s.sub}</div>
     </div>
     <div class="sc-acts">
-      <button class="btn pri">${ICON.check}${t.ok}</button>
-      <button class="btn sq" aria-label="${t.say}">${ICON.mic}</button>
-    </div>
-  </div>`;
+      <button class="btn pri" data-act="ok">${ICON.check}Готово</button>
+      <button class="btn sq" data-act="mic" aria-label="Сказати">${ICON.mic}</button>
+    </div>`);
 }
 
-function screenDone(st) {
-  const t = L();
-  const art = st.id === "fauna"
-    ? BOTANY.bloom
-    : `<div class="glyph">${ICON.check}</div>`;
-  return scene(st, "done") + `<div class="sc">
-    <div class="sc-top">${t.doneTitle}</div>
+function viewRec() {
+  const s = STEPS[step];
+  paint(`<div class="sc-top">${s.name}</div>
     <div class="sc-mid">
-      ${art}
-      <div class="chips">${t.senses.map(s => `<i>${s.n}</i>`).join("")}</div>
-      <div class="sub">${t.doneSub}</div>
+      <div class="wave">${Array.from({length:9},(_,i)=>`<i style="--i:${i}"></i>`).join("")}</div>
+      <div class="rec-t">Слухаю…</div>
+      <div class="sub">${s.n} · ${s.sub}</div>
+    </div>
+    <div class="sc-acts"><button class="btn pri" data-act="stop">Досить</button></div>`);
+}
+
+function viewSaid() {
+  const s = STEPS[step];
+  paint(`<div class="sc-top">${s.name}</div>
+    <div class="sc-mid">
+      <div class="said">«${s.said}»</div>
+      <div class="saved">${ICON.check}<span>записано</span></div>
+    </div>`);
+}
+
+function viewDone() {
+  paint(`<div class="sc-top">Ти впорався</div>
+    <div class="sc-mid">
+      ${BOTANY.bloom}
+      <div class="chips">${STEPS.map(s => `<i>${s.n}</i>`).join("")}</div>
+      <div class="sub">Ще раз через 30 хв?</div>
     </div>
     <div class="sc-acts">
-      <button class="btn pri">${t.yes}</button>
-      <button class="btn">${t.later}</button>
-    </div>
-  </div>`;
+      <button class="btn pri" data-act="again">Так</button>
+      <button class="btn" data-act="later">Пізніше</button>
+    </div>`);
 }
 
-const SCREENS = [screenTimer, screenStep, screenDone];
-
-/* ------------------------------------------------------------ render */
-function render() {
-  const t = L();
-  document.documentElement.lang = LANG;
-  document.getElementById("h1").textContent = t.h1;
-  document.getElementById("lede").innerHTML = t.lede;
-  document.getElementById("foot").innerHTML = t.foot;
-
-  document.getElementById("bar").innerHTML =
-    `<span class="chip" style="cursor:default;border:0;background:0;padding-left:0">${t.lang}</span>` +
-    ["uk", "en"].map(l =>
-      `<button class="chip" data-lang="${l}" aria-pressed="${l === LANG}">${l.toUpperCase()}</button>`
-    ).join("") +
-    `<span class="sep"></span>` +
-    t.senses.map((s, i) =>
-      `<button class="chip" data-sense="${i}" aria-pressed="${i === SENSE}">${s.n} · ${s.name}</button>`
-    ).join("");
-
-  document.getElementById("board").innerHTML = t.styles.map((st, i) => `
-    <section class="st-${st.id}">
-      <div class="shead">
-        <span class="snum">0${i + 1}</span>
-        <span class="sname">${st.name}</span>
-        <span class="stag">${st.tag}</span>
-      </div>
-      <p class="swhy">${st.why}</p>
-      <div class="row">
-        ${SCREENS.map((fn, j) => `
-          <div class="cell">
-            <div class="watch"><div class="screen">${fn(st)}</div></div>
-            <div class="clabel">${t.screens[j]}</div>
-          </div>`).join("")}
-      </div>
-      ${st.id === "fauna" ? `<div class="legend">${t.beasts.map(b => `
-        <div class="lcard">
-          ${FAUNA[b.art]}
-          <div class="lsense">${b.sense}</div>
-          <div class="lname">${b.name}</div>
-          <div class="lwhy"><em>${b.latin}</em> — ${b.why}</div>
-        </div>`).join("")}</div>` : ""}
-    </section>`).join("");
+function startTimer() {
+  state = "timer"; step = 0; done = []; left = TOTAL;
+  viewTimer();
+  clearInterval(tick);
+  tick = setInterval(() => {
+    left -= 1;
+    if (left <= 0) {
+      clearInterval(tick); left = 0; viewTimer();
+      document.querySelector(".watch").classList.add("buzz");
+      setTimeout(() => {
+        document.querySelector(".watch").classList.remove("buzz");
+        state = "step"; viewStep();
+      }, 900);
+    } else viewTimer();
+  }, 1000);
 }
 
-/* Browser only — the design-system build imports this file in Node. */
-if (typeof document !== "undefined") {
-  document.addEventListener("click", e => {
-    const b = e.target.closest("[data-lang],[data-sense]");
-    if (!b) return;
-    if (b.dataset.lang) LANG = b.dataset.lang;
-    else SENSE = +b.dataset.sense;
-    render();
-  });
-  render();
+function advance() {
+  done.push(step);
+  if (step >= STEPS.length - 1) { state = "done"; viewDone(); }
+  else { step += 1; state = "step"; viewStep(); }
 }
+
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-act]");
+  if (!b) return;
+  b.classList.add("press");
+  const act = b.dataset.act;
+  setTimeout(() => {
+    if (act === "ok") advance();
+    else if (act === "mic") { state = "rec"; viewRec(); }
+    else if (act === "stop") { state = "said"; viewSaid(); setTimeout(advance, 1700); }
+    else if (act === "again" || act === "later") startTimer();
+  }, 130);
+});
+
+/* ------------------------------------------------ hands-free playback */
+const wait = ms => new Promise(r => setTimeout(r, ms));
+const cursor = () => document.getElementById("cursor");
+
+async function point(sel) {
+  const el = document.querySelector(sel);
+  if (!el) return;
+  const r = el.getBoundingClientRect(), c = cursor();
+  c.style.opacity = 1;
+  c.style.transform = `translate(${r.left + r.width / 2}px, ${r.top + r.height / 2}px)`;
+  await wait(650);
+  c.classList.add("tap");
+  await wait(180);
+  el.click();
+  c.classList.remove("tap");
+  await wait(120);
+}
+
+async function autoRun() {
+  startTimer();
+  await wait(TOTAL * 1000 + 1400);        /* countdown + buzz */
+  await point('[data-act="ok"]');  await wait(900);   /* 5 — tapped through */
+  await point('[data-act="mic"]'); await wait(2100);  /* 4 — spoken */
+  await point('[data-act="stop"]'); await wait(2100);
+  await point('[data-act="ok"]');  await wait(900);   /* 3 */
+  await point('[data-act="mic"]'); await wait(2100);  /* 2 — spoken */
+  await point('[data-act="stop"]'); await wait(2100);
+  await point('[data-act="ok"]');  await wait(4200);  /* 1 → bloom, let it open */
+  await point('[data-act="again"]');
+  cursor().style.opacity = 0;
+  await wait(2600);
+  if (window.__mark) window.__mark("end", 0);
+}
+
+const auto = new URLSearchParams(location.search).has("auto");
+if (auto) { document.body.classList.add("auto"); autoRun(); }
+else startTimer();
+document.getElementById("play").addEventListener("click", () => { cursor().style.opacity = 0; autoRun(); });
 
 </script>
-</body>
-</html>
+</body></html>
