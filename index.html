@@ -95,43 +95,114 @@ section{padding:52px 0;border-bottom:1px solid var(--line)}
 .st-native .glyph{color:#30D158}
 .st-native .chips i{background:#1F1F22;color:#8E8E93}
 
-/* ================= 2. Clay ================= */
+/* ================= 2. Clay — polished iOS ================= */
 .st-clay .screen{
-  background:radial-gradient(120% 90% at 50% 0%,#F0EAE1,#D9CFC2 78%);
-  color:#4B4237;font-family:ui-rounded,"SF Pro Rounded","Nunito",system-ui,sans-serif;
+  background:radial-gradient(150% 112% at 50% -14%,#FCF8F2 0%,#F0E8DD 46%,#E1D5C5 100%);
+  color:#3B342B;letter-spacing:-.011em;
+  font-family:-apple-system,"SF Pro Text","Inter",system-ui,sans-serif;
 }
-.st-clay .sc-top{color:#9A8875;font-weight:700}
-.st-clay .big{font-weight:600;color:#6E5E4C}
-.st-clay .ring .trk{stroke:#C6B8A6}
-.st-clay .ring .val{stroke:#B98A6B;stroke-linecap:round}
-.st-clay .glyph{color:#B98A6B}
+.st-clay .screen::after{ /* paper tooth, so it doesn't read as flat plastic */
+  content:"";position:absolute;inset:0;z-index:5;pointer-events:none;opacity:.14;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='90' height='90'><filter id='c'><feTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2'/></filter><rect width='90' height='90' filter='url(%23c)' opacity='.6'/></svg>");
+}
+.st-clay .sc-top{color:#A4907A;font-weight:590;font-size:12px;letter-spacing:0}
+.st-clay .big{font-weight:580;color:#2E2822;letter-spacing:-.045em}
+.st-clay .ring .trk{stroke:#DACEBE}
+.st-clay .ring .val{stroke:#C08457;stroke-linecap:round}
+.st-clay .glyph{color:#BD8257}
+.st-clay .sub{opacity:.55;font-weight:450}
 .st-clay .btn{
-  background:linear-gradient(180deg,#F6F1E9,#DFD4C6);color:#5C5243;font-weight:700;
-  box-shadow:0 3px 0 #BCAE9C,0 6px 12px rgba(94,78,58,.22),0 1px 0 rgba(255,255,255,.9) inset;
+  background:linear-gradient(180deg,#FFFDFA,#F3ECE1);color:#443C32;font-weight:590;
+  box-shadow:0 .5px 0 rgba(255,255,255,.95) inset,
+             0 0 0 .5px rgba(92,74,52,.14),
+             0 1px 1.5px rgba(74,58,40,.07),
+             0 7px 16px -5px rgba(74,58,40,.18);
 }
 .st-clay .btn.pri{
-  background:linear-gradient(180deg,#CE9B78,#B07A58);color:#FFF6EE;
-  box-shadow:0 3px 0 #8E6142,0 6px 13px rgba(94,60,34,.3),0 1px 0 rgba(255,255,255,.35) inset;
+  background:linear-gradient(180deg,#CE9468,#B4764A);color:#FFFAF4;
+  box-shadow:0 .5px 0 rgba(255,255,255,.4) inset,
+             0 0 0 .5px rgba(124,78,40,.4),
+             0 1px 2px rgba(124,78,40,.2),
+             0 9px 18px -6px rgba(124,78,40,.45);
 }
-.st-clay .chips i{background:#CDC0B0;color:#6B5F4F;font-weight:700}
-.st-clay .sub{opacity:.72}
+.st-clay .chips i{background:#E7DCCC;color:#6E6152;font-weight:600;
+  box-shadow:0 0 0 .5px rgba(92,74,52,.13)}
 
-/* ================= 3. Fauna ================= */
+/* ================= 3. Fauna — living, overgrown ================= */
 .st-fauna .screen{
-  --ink:#CFE3C2; --bg2:#0E1A14; --accent:#F2B33D;
-  background:radial-gradient(130% 100% at 50% 8%,#1B2E22,#0A140E 80%);
-  color:#E4EFDD;font-family:ui-rounded,"SF Pro Rounded","Nunito",system-ui,sans-serif;
+  --ink:#CFE3C2; --bg2:#0B1710; --accent:#F2B33D;
+  background:radial-gradient(122% 80% at 50% 2%,#2C4E35 0%,#152A1C 54%,#070F0A 100%);
+  color:#E9F3E2;
+  font-family:ui-rounded,"SF Pro Rounded","Nunito",system-ui,sans-serif;
 }
-.st-fauna .sc-top{color:#F2B33D;font-weight:700;letter-spacing:.02em}
-.st-fauna .big{font-weight:500;color:#F2B33D}
-.st-fauna .ring .trk{stroke:#2C4634}
-.st-fauna .ring .val{stroke:#F2B33D;stroke-linecap:round}
-.st-fauna .btn{background:#22392A;color:#CFE3C2;font-weight:700}
-.st-fauna .btn.pri{background:#F2B33D;color:#16240F}
-.st-fauna .chips i{background:#22392A;color:#9CBB93;font-weight:700}
-.st-fauna .beast{width:74px;height:74px;margin-bottom:-6px}
+.st-fauna .scene{position:absolute;inset:0;z-index:1;overflow:hidden;border-radius:inherit}
+.st-fauna .fx-shaft{
+  position:absolute;top:-46px;left:16%;width:66%;height:74%;filter:blur(11px);
+  background:linear-gradient(180deg,rgba(204,242,166,.3),rgba(204,242,166,0) 74%);
+  animation:shaft 9s ease-in-out infinite alternate;
+}
+@keyframes shaft{from{opacity:.5;transform:translateX(-7px) scaleX(.94)}
+                 to{opacity:1;transform:translateX(7px) scaleX(1.06)}}
+.st-fauna .fx-leaves{position:absolute;left:-7px;bottom:-12px;width:calc(100% + 14px);
+  transform-origin:50% 100%;display:block}
+.st-fauna .fx-back {height:78px;animation:sway 7.5s ease-in-out infinite alternate}
+.st-fauna .fx-mid  {height:66px;animation:sway 6s ease-in-out -1.5s infinite alternate-reverse}
+.st-fauna .fx-front{height:56px;animation:sway 5s ease-in-out -.8s infinite alternate}
+@keyframes sway{from{transform:rotate(-1.5deg) translateY(1px)}
+                to{transform:rotate(1.5deg) translateY(-3px)}}
+.st-fauna .fx-corner{position:absolute;top:-8px;width:76px;height:56px;transform-origin:50% 0}
+.st-fauna .fx-tl{left:-12px;animation:swayS 8s ease-in-out infinite alternate}
+.st-fauna .fx-tr{right:-12px;animation:swayS 7s ease-in-out -2s infinite alternate-reverse}
+@keyframes swayS{from{transform:rotate(-3.5deg)}to{transform:rotate(3.5deg)}}
+.st-fauna .fx-sprig{position:absolute;top:56%;width:56px;height:50px;transform-origin:50% 50%}
+.st-fauna .fx-sl{left:-14px;animation:swayS 9s ease-in-out -3s infinite alternate}
+.st-fauna .fx-sr{right:-14px;animation:swayS 8.5s ease-in-out -1s infinite alternate-reverse}
+.st-fauna .fx-flies{position:absolute;inset:0}
+.st-fauna .fx-flies i{
+  position:absolute;width:4px;height:4px;border-radius:50%;background:#FFEBAF;
+  box-shadow:0 0 8px 2.5px rgba(255,220,130,.7);
+  left:calc(13% + var(--i) * 15%);top:calc(26% + var(--i) * 8%);
+  animation:fly calc(6s + var(--i) * 1.3s) ease-in-out infinite alternate,
+            glow calc(2.3s + var(--i) * .45s) ease-in-out infinite;
+}
+@keyframes fly{from{transform:translate(0,0)}to{transform:translate(17px,-24px)}}
+@keyframes glow{0%,100%{opacity:.22}50%{opacity:1}}
+.st-fauna .sc-top{
+  color:#16240F;background:#F2B33D;font-weight:800;letter-spacing:.02em;
+  align-self:flex-start;padding:3px 10px;border-radius:999px;font-size:11.5px;
+  box-shadow:0 2px 8px rgba(0,0,0,.35);
+}
+.st-fauna .big{font-weight:700;color:#FFD979;text-shadow:0 2px 10px rgba(0,0,0,.45)}
+.st-fauna .sub{opacity:.78}
+.st-fauna .dial{position:relative;display:grid;place-items:center}
+.st-fauna .dial::before{content:"";position:absolute;width:104px;height:58px;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(5,14,9,.8),rgba(5,14,9,0));filter:blur(3px)}
+.st-fauna .vine{width:136px;height:136px;display:block}
+.st-fauna .vine .stem{animation:grow 2.8s ease-out both}
+@keyframes grow{from{stroke-dashoffset:351.86}}
+.st-fauna .dial-t{position:absolute;font-size:31px;font-weight:700;letter-spacing:-.02em;
+  font-variant-numeric:tabular-nums;text-shadow:0 2px 10px rgba(0,0,0,.5)}
+.st-fauna .beast{width:76px;height:76px;margin-bottom:-6px;transform-origin:50% 92%;
+  animation:breathe 3.4s ease-in-out infinite;filter:drop-shadow(0 4px 9px rgba(0,0,0,.45))}
+@keyframes breathe{0%,100%{transform:scale(1) translateY(0)}50%{transform:scale(1.05) translateY(-2px)}}
+.st-fauna .beast .eye{transform-box:fill-box;transform-origin:center;animation:blink 5.4s infinite}
+@keyframes blink{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.12)}}
 .st-fauna .sc-mid .big{font-size:46px}
-.st-fauna .latin{font-size:9.5px;font-style:italic;opacity:.5;letter-spacing:.02em}
+.st-fauna .latin{font-size:10px;font-style:italic;opacity:.62;letter-spacing:.02em}
+.st-fauna .fx-bloom{width:106px;height:98px;filter:drop-shadow(0 5px 11px rgba(0,0,0,.45))}
+.st-fauna .fx-bloom .fx-petals{transform-box:fill-box;transform-origin:center;
+  animation:open 1.3s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes open{from{transform:scale(.15) rotate(-50deg)}}
+.st-fauna .fx-bloom .fx-leafL,.st-fauna .fx-bloom .fx-leafR{
+  transform-box:fill-box;transform-origin:0 50%;animation:frond 4.4s ease-in-out infinite alternate}
+.st-fauna .fx-bloom .fx-leafR{animation-delay:-2.2s}
+@keyframes frond{from{transform:rotate(-5deg)}to{transform:rotate(5deg)}}
+.st-fauna .btn{background:#2A4A33;color:#DCEDD3;font-weight:800;
+  box-shadow:0 0 0 1px rgba(160,210,150,.18) inset,0 4px 12px rgba(0,0,0,.4)}
+.st-fauna .btn.pri{background:linear-gradient(180deg,#F7C25A,#EDA92B);color:#16240F;
+  box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 5px 14px rgba(0,0,0,.45)}
+.st-fauna .chips i{background:#2A4A33;color:#A9CB9E;font-weight:800;
+  box-shadow:0 0 0 1px rgba(160,210,150,.16) inset}
 
 /* ================= 4. Mono / low-parse ================= */
 .st-mono .screen{background:#000;color:#fff;font-family:ui-monospace,"SF Mono","JetBrains Mono",monospace}
@@ -222,7 +293,7 @@ const FAUNA = {
     <ellipse cx="50" cy="63" rx="12" ry="13" fill="var(--bg2)" opacity=".35"/>
     <ellipse cx="50" cy="40" rx="21" ry="18" fill="var(--ink)"/>
     <circle cx="41" cy="41" r="8.6" fill="var(--accent)"/><circle cx="59" cy="41" r="8.6" fill="var(--accent)"/>
-    <circle cx="41" cy="42" r="4.4" fill="#10160F"/><circle cx="59" cy="42" r="4.4" fill="#10160F"/>
+    <circle class="eye" cx="41" cy="42" r="4.4" fill="#10160F"/><circle class="eye" cx="59" cy="42" r="4.4" fill="#10160F"/>
     <circle cx="43" cy="39.5" r="1.7" fill="#fff"/><circle cx="61" cy="39.5" r="1.7" fill="#fff"/>
     <circle cx="31" cy="33" r="3.1" fill="var(--accent)"/><circle cx="69" cy="33" r="3.1" fill="var(--accent)"/>
     <circle cx="38" cy="28" r="2.2" fill="var(--accent)"/><circle cx="62" cy="28" r="2.2" fill="var(--accent)"/>
@@ -232,7 +303,7 @@ const FAUNA = {
     <path d="M50 14c17 0 29 12 29 30 0 24-14 42-29 42S21 68 21 44c0-18 12-30 29-30z" fill="var(--ink)"/>
     <path d="M50 22c12 0 21 9 21 22 0 18-10 31-21 31S29 62 29 44c0-13 9-22 21-22z" fill="var(--bg2)" opacity=".28"/>
     <circle cx="39" cy="43" r="8.2" fill="var(--accent)"/><circle cx="61" cy="43" r="8.2" fill="var(--accent)"/>
-    <circle cx="39" cy="44" r="4.6" fill="#10160F"/><circle cx="61" cy="44" r="4.6" fill="#10160F"/>
+    <circle class="eye" cx="39" cy="44" r="4.6" fill="#10160F"/><circle class="eye" cx="61" cy="44" r="4.6" fill="#10160F"/>
     <circle cx="41" cy="41" r="1.8" fill="#fff"/><circle cx="63" cy="41" r="1.8" fill="#fff"/>
     <path d="M50 50l5 9h-10l5-9z" fill="var(--accent)"/>
     <path d="M50 60c0 8-3 14-3 14M50 60c0 8 3 14 3 14" stroke="var(--bg2)" stroke-width="2.4" opacity=".5" stroke-linecap="round"/>
@@ -262,7 +333,7 @@ const FAUNA = {
     <circle cx="25" cy="27" r="12" fill="var(--ink)"/><circle cx="75" cy="27" r="12" fill="var(--ink)"/>
     <circle cx="25" cy="27" r="5.5" fill="var(--accent)" opacity=".55"/><circle cx="75" cy="27" r="5.5" fill="var(--accent)" opacity=".55"/>
     <path d="M50 22c19 0 31 14 31 33 0 21-14 32-31 32S19 76 19 55c0-19 12-33 31-33z" fill="var(--ink)"/>
-    <circle cx="37" cy="50" r="4.2" fill="var(--bg2)"/><circle cx="63" cy="50" r="4.2" fill="var(--bg2)"/>
+    <circle class="eye" cx="37" cy="50" r="4.2" fill="var(--bg2)"/><circle class="eye" cx="63" cy="50" r="4.2" fill="var(--bg2)"/>
     <ellipse cx="50" cy="70" rx="17" ry="14" fill="var(--bg2)" opacity=".3"/>
     <path d="M50 58c7 0 12 4 12 9s-5 8-12 8-12-3-12-8 5-9 12-9z" fill="var(--accent)"/>
     <path d="M42 64c3-2 5-2 8-2s5 0 8 2" stroke="#10160F" stroke-width="2.4" stroke-linecap="round"/>
@@ -277,10 +348,99 @@ const FAUNA = {
       <path d="M20 44C12 34 8 30 4 28"/><path d="M20 48C11 44 7 43 2 43"/>
       <path d="M20 56c-8 10-12 14-16 16"/><path d="M20 52c-9 4-13 5-18 5"/>
     </g>
-    <circle cx="27" cy="45" r="4.6" fill="var(--bg2)"/><circle cx="27" cy="45" r="2.2" fill="#10160F"/>
+    <circle cx="27" cy="45" r="4.6" fill="var(--bg2)"/><circle class="eye" cx="27" cy="45" r="2.2" fill="#10160F"/>
     <path d="M22 57c5 3 10 4 14 4" stroke="var(--bg2)" stroke-width="2.4" opacity=".55" stroke-linecap="round"/>
   </svg>`,
 };
+
+/* ---------------------------------------------------------- botany
+   Leaves, vines and blooms for the Fauna style. Generated from a couple of
+   primitives so layers stay consistent and cheap to retune. */
+const BOTANY = (() => {
+  const LEAF = "M0 0C7-10 21-14 31-10 26 2 13 9 0 0Z";
+  const VEIN = "M2 -1C11-4 22-7 30-10";
+
+  const leaf = (x, y, rot, s, fill, op = 1) =>
+    `<g transform="translate(${x} ${y}) rotate(${rot}) scale(${s})" opacity="${op}">
+       <path d="${LEAF}" fill="${fill}"/>
+       <path d="${VEIN}" stroke="rgba(6,18,10,.3)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+     </g>`;
+
+  const strip = (cls, specs, fill) =>
+    `<svg class="${cls}" viewBox="0 0 210 124" preserveAspectRatio="xMidYMax slice">
+       ${specs.map(a => leaf(a[0], a[1], a[2], a[3], fill)).join("")}
+     </svg>`;
+
+  /* three overlapping fringes along the bottom edge, back to front */
+  const back = strip("fx-leaves fx-back", [
+    [-6,116,-72,1.55],[24,120,-98,1.7],[56,116,-58,1.45],[92,121,-108,1.6],
+    [124,116,-76,1.5],[158,120,-48,1.5],[190,117,-96,1.6],
+  ], "#163222");
+
+  const mid = strip("fx-leaves fx-mid", [
+    [6,121,-122,1.3],[38,124,-54,1.2],[72,121,-100,1.35],
+    [106,125,-70,1.25],[140,121,-116,1.3],[174,124,-58,1.25],
+  ], "#23512F");
+
+  const front = strip("fx-leaves fx-front", [
+    [-4,128,-86,1.2],[20,131,-44,1.05],[48,128,-112,1.15],[80,132,-64,1.1],
+    [112,128,-96,1.2],[146,131,-40,1.05],[178,128,-102,1.15],[204,131,-68,1.1],
+  ], "#31713E");
+
+  /* small clusters creeping in from the top corners */
+  const corner = (cls, specs) =>
+    `<svg class="${cls}" viewBox="0 0 96 70">
+       ${specs.map(a => leaf(a[0], a[1], a[2], a[3], "#1D4428")).join("")}
+     </svg>`;
+  const topLeft  = corner("fx-corner fx-tl", [[2,2,30,1.3],[0,20,66,1.15],[20,-2,6,1.0]]);
+  const topRight = corner("fx-corner fx-tr", [[94,2,150,1.3],[96,20,114,1.15],[76,-2,174,1.0]]);
+
+  /* sprigs creeping up the side bezels */
+  const sprig = (cls, specs) =>
+    `<svg class="${cls}" viewBox="0 0 58 52">
+       ${specs.map(a => leaf(a[0], a[1], a[2], a[3], "#1F4A2B")).join("")}
+     </svg>`;
+  const sideL = sprig("fx-sprig fx-sl", [[0,8,-44,1.1],[0,30,-14,.95]]);
+  const sideR = sprig("fx-sprig fx-sr", [[58,8,-136,1.1],[58,30,-166,.95]]);
+
+  /* progress ring drawn as a living vine: stem arc + leaves along the grown part */
+  const vine = (pct) => {
+    const C = 351.86, off = C * (1 - pct), n = 9, sweep = pct * 360;
+    let leaves = "";
+    for (let i = 0; i < n; i++) {
+      const deg = -90 + (sweep * i) / (n - 1);
+      const rad = (deg * Math.PI) / 180;
+      const x = 64 + 56 * Math.cos(rad), y = 64 + 56 * Math.sin(rad);
+      leaves += `<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${(deg + (i % 2 ? 128 : -128)).toFixed(1)}) scale(.5)">
+          <path d="${LEAF}" fill="#7FC07A"/></g>`;
+    }
+    return `<svg class="ring vine" viewBox="0 0 128 128">
+        <circle cx="64" cy="64" r="56" fill="none" stroke="#1E3B28" stroke-width="6"/>
+        <circle class="stem" cx="64" cy="64" r="56" fill="none" stroke="#4E9B55" stroke-width="6"
+                stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${off.toFixed(1)}"
+                transform="rotate(-90 64 64)"/>
+        ${leaves}
+      </svg>`;
+  };
+
+  /* the "done" screen: a sprout that has just opened */
+  const bloom = `<svg class="fx-bloom" viewBox="0 0 120 110">
+      <path class="stem" d="M60 106V48" stroke="#4E9B55" stroke-width="5" stroke-linecap="round" fill="none"/>
+      <g class="fx-leafL">${leaf(58, 84, -158, 1.45, "#31713E")}</g>
+      <g class="fx-leafR">${leaf(62, 74, -22, 1.45, "#3E8A4A")}</g>
+      <g transform="translate(60 40)"><g class="fx-petals">
+        ${[0,72,144,216,288].map(a =>
+          `<ellipse rx="11" ry="19" cy="-17" fill="#F2B33D" transform="rotate(${a})" opacity=".95"/>`).join("")}
+        <circle r="9.5" fill="#FFE3A3"/><circle r="4.5" fill="#C98319"/>
+      </g></g>
+    </svg>`;
+
+  const fireflies = (n = 5) =>
+    `<div class="fx-flies">${Array.from({ length: n }, (_, i) =>
+      `<i style="--i:${i}"></i>`).join("")}</div>`;
+
+  return { back, mid, front, topLeft, topRight, sideL, sideR, vine, bloom, fireflies };
+})();
 
 /* ------------------------------------------------------------------ copy */
 const T = {
@@ -314,10 +474,10 @@ const T = {
     styles: [
       { id:"native", name:"watchOS Native", tag:"контроль",
         why:"Рідний словник системи: чорний OLED, SF, зелений акцент, капсульні кнопки на всю ширину. Нічого не вигадано — і саме тому воно не сперечається з рештою годинника о 3-й ночі." },
-      { id:"clay", name:"Clay", tag:"сенсорно-м'який",
-        why:"Ні чистого білого, ні чистого чорного, ні гострих кутів. Приглушені теплі тони й товсті м'які кнопки для станів, коли контраст сам по собі вже болить." },
-      { id:"fauna", name:"Fauna", tag:"тваринний",
-        why:"Кожне чуття отримує тварину, яка тримає по ньому рекорд. Це не декор: замість «зроби вправу» ти на секунду стаєш павуком-стрибуном. Плюс це дає привід щоразу дізнаватись щось нове." },
+      { id:"clay", name:"Warm iOS", tag:"відполірований",
+        why:"Той самий теплий, не-кричущий настрій, але вилизаний до рівня системного застосунку: айфонна типографіка, волосяні межі в пів пікселя, багатошарові тіні замість товстого пластику й ледь помітне паперове зерно. Не «скло», а акуратна річ." },
+      { id:"fauna", name:"Fauna", tag:"живий · анімований",
+        why:"Не іконки на темному тлі, а маленький живий куток: листя заростає екран з країв і гойдається, крізь крону б'є промінь, у повітрі літають світлячки. Таймер — не коло, а лоза, що проростає листочками. Наприкінці розпускається квітка. Тварина дихає й кліпає. Кожне чуття отримує рекордсменку по ньому." },
       { id:"mono", name:"Mono", tag:"режим перевантаження",
         why:"Нуль декору, максимальний контраст, величезні цифри, жодних іконок для розпізнавання. Для моменту, коли мозок уже не парсить картинки, а таймер усе одно зудить." },
       { id:"riso", name:"Riso", tag:"паперовий",
@@ -356,10 +516,10 @@ const T = {
     styles: [
       { id:"native", name:"watchOS Native", tag:"control",
         why:"The system's own vocabulary: black OLED, SF, green accent, full-width capsule buttons. Nothing invented — which is exactly why it won't fight the rest of the watch at 3am." },
-      { id:"clay", name:"Clay", tag:"sensory-soft",
-        why:"No pure white, no pure black, no sharp corners. Muted warm tones and thick soft buttons for states where contrast itself already hurts." },
-      { id:"fauna", name:"Fauna", tag:"animal",
-        why:"Each sense gets the animal that holds the record for it. Not decoration: instead of \"do the exercise\" you get to be a jumping spider for a second — and learn something every time." },
+      { id:"clay", name:"Warm iOS", tag:"polished",
+        why:"The same warm, non-shouting mood, but finished to system-app standard: iOS typography, half-pixel hairlines, layered shadows instead of thick plastic, and a faint paper tooth. Not glass — just a well-made object." },
+      { id:"fauna", name:"Fauna", tag:"living · animated",
+        why:"Not icons on a dark field but a small living corner: foliage overgrows the edges and sways, a shaft of light comes through the canopy, fireflies drift past. The timer is a vine that sprouts leaves as it grows. A flower opens at the end. The animal breathes and blinks. Each sense gets its record-holder." },
       { id:"mono", name:"Mono", tag:"overload mode",
         why:"Zero decoration, maximum contrast, huge numerals, no icons to decode. For the moment the brain has stopped parsing pictures but the timer is buzzing anyway." },
       { id:"riso", name:"Riso", tag:"paper",
@@ -393,12 +553,26 @@ function ring(pct, label, sub, styleId) {
   return arc || `<div class="big">${label}</div><div class="rule"></div>`;
 }
 
+/* Fauna is the only style with an environment behind the content. */
+function scene(st, kind) {
+  if (st.id !== "fauna") return "";
+  return `<div class="scene">
+    <div class="fx-shaft"></div>
+    ${BOTANY.topLeft}${BOTANY.topRight}${BOTANY.sideL}${BOTANY.sideR}
+    ${BOTANY.fireflies(kind === "done" ? 6 : 4)}
+    ${BOTANY.back}${BOTANY.mid}${BOTANY.front}
+  </div>`;
+}
+
 function screenTimer(st) {
   const t = L();
-  return `<div class="sc">
+  const dial = st.id === "fauna"
+    ? `<div class="dial">${BOTANY.vine(0.58)}<span class="dial-t">12:40</span></div>`
+    : ring(0.58, "12:40", "", st.id);
+  return scene(st, "timer") + `<div class="sc">
     <div class="sc-top">${t.ritual}</div>
     <div class="sc-mid">
-      ${ring(0.58, "12:40", "", st.id)}
+      ${dial}
       <div class="sub">${t.timerSub}</div>
     </div>
   </div>`;
@@ -410,7 +584,7 @@ function screenStep(st) {
     ? `<div class="beast">${FAUNA[t.beasts[SENSE].art]}</div>
        <div class="latin">${t.beasts[SENSE].name}</div>`
     : st.id === "mono" ? "" : `<div class="glyph">${ICON[s.icon]}</div>`;
-  return `<div class="sc">
+  return scene(st, "step") + `<div class="sc">
     <div class="sc-top">${s.name}</div>
     <div class="sc-mid">
       ${art}
@@ -427,9 +601,9 @@ function screenStep(st) {
 function screenDone(st) {
   const t = L();
   const art = st.id === "fauna"
-    ? `<div class="beast">${FAUNA.catfish}</div>`
+    ? BOTANY.bloom
     : st.id === "mono" ? "" : `<div class="glyph">${ICON.check}</div>`;
-  return `<div class="sc">
+  return scene(st, "done") + `<div class="sc">
     <div class="sc-top">${t.doneTitle}</div>
     <div class="sc-mid">
       ${art}
@@ -488,15 +662,17 @@ function render() {
     </section>`).join("");
 }
 
-document.addEventListener("click", e => {
-  const b = e.target.closest("[data-lang],[data-sense]");
-  if (!b) return;
-  if (b.dataset.lang) LANG = b.dataset.lang;
-  else SENSE = +b.dataset.sense;
+/* Browser only — the design-system build imports this file in Node. */
+if (typeof document !== "undefined") {
+  document.addEventListener("click", e => {
+    const b = e.target.closest("[data-lang],[data-sense]");
+    if (!b) return;
+    if (b.dataset.lang) LANG = b.dataset.lang;
+    else SENSE = +b.dataset.sense;
+    render();
+  });
   render();
-});
-
-render();
+}
 
 </script>
 </body>
