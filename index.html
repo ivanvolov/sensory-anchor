@@ -218,6 +218,8 @@ section{padding:52px 0;border-bottom:1px solid var(--line)}
 .lwhy em{font-style:italic;opacity:.8}
 
 footer{padding:46px 0;color:var(--dim);font-size:13.5px;line-height:1.7;max-width:660px}
+footer a{color:#9FB6A6;text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:#E4EFDD}
 footer code{background:var(--page2);padding:1px 6px;border-radius:5px;font-size:12.5px}
 </style>
 </head>
@@ -405,7 +407,7 @@ const BOTANY = (() => {
     `<div class="fx-flies">${Array.from({ length: n }, (_, i) =>
       `<i style="--i:${i}"></i>`).join("")}</div>`;
 
-  return { back, mid, front, topLeft, topRight, sideL, sideR, vine, bloom, fireflies };
+  return { LEAF, back, mid, front, topLeft, topRight, sideL, sideR, vine, bloom, fireflies };
 })();
 
 /* ------------------------------------------------------------------ copy */
@@ -445,8 +447,9 @@ const T = {
       { id:"fauna", name:"Fauna", tag:"живий · анімований",
         why:"Не іконки на темному тлі, а маленький живий куток: листя заростає екран з країв і гойдається, крізь крону б'є промінь, у повітрі літають світлячки. Таймер — не коло, а лоза, що проростає листочками. Наприкінці розпускається квітка. Тварина дихає й кліпає. Кожне чуття отримує рекордсменку по ньому." },
     ],
-    foot: `Усі 15 екранів — рукописні SVG і CSS, без жодної згенерованої картинки.
-           Файли: <code>index.html</code>, <code>app.js</code>, <code>art.js</code>.`,
+    foot: `Усі екрани — рукописні SVG і CSS, без жодної згенерованої картинки.<br>
+           → <a href="demo.html">клікабельний прототип Fauna</a> (весь прохід, з голосом і квіткою)<br>
+           → <a href="forest.html">три розкладки лісового екрана</a> (і факт про тварину по тапу)`,
   },
   en: {
     h1: "Sensory Anchor — 5·4·3·2·1 on Apple Watch",
@@ -483,8 +486,9 @@ const T = {
       { id:"fauna", name:"Fauna", tag:"living · animated",
         why:"Not icons on a dark field but a small living corner: foliage overgrows the edges and sways, a shaft of light comes through the canopy, fireflies drift past. The timer is a vine that sprouts leaves as it grows. A flower opens at the end. The animal breathes and blinks. Each sense gets its record-holder." },
     ],
-    foot: `All 15 screens are hand-written SVG and CSS, with zero generated imagery.
-           Files: <code>index.html</code>, <code>app.js</code>, <code>art.js</code>.`,
+    foot: `Every screen is hand-written SVG and CSS, with zero generated imagery.<br>
+           → <a href="demo.html">clickable Fauna prototype</a> (the whole run, voice and bloom)<br>
+           → <a href="forest.html">three layouts of the forest screen</a> (tap the animal for a fact)`,
   },
 };
 
