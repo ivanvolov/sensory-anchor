@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sensory Anchor — 5·4·3·2·1 на Apple Watch</title>
+<style>
+:root{
+  --page:#0B0B0C; --page2:#131316; --fg:#EDEDEF; --dim:#8B8B93; --line:#26262B;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--page); color:var(--fg); -webkit-font-smoothing:antialiased;
+  font-family:ui-sans-serif,-apple-system,"Inter","Segoe UI",system-ui,sans-serif;
+  padding:0 0 100px;
+}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+
+/* ---------- page chrome ---------- */
+header{padding:56px 0 30px;border-bottom:1px solid var(--line);margin-bottom:8px}
+h1{font-size:31px;line-height:1.15;letter-spacing:-.02em;margin:0 0 12px;font-weight:650}
+.lede{color:var(--dim);font-size:15.5px;line-height:1.62;max-width:670px;margin:0}
+.lede b{color:var(--fg);font-weight:600}
+.bar{display:flex;gap:10px;align-items:center;margin-top:26px;flex-wrap:wrap}
+.chip{
+  appearance:none;border:1px solid var(--line);background:var(--page2);color:var(--dim);
+  font:inherit;font-size:13px;padding:8px 15px;border-radius:999px;cursor:pointer;transition:.14s;
+}
+.chip:hover{color:var(--fg);border-color:#3A3A42}
+.chip[aria-pressed="true"]{background:var(--fg);color:var(--page);border-color:var(--fg)}
+.bar .sep{width:1px;height:22px;background:var(--line);margin:0 6px}
+
+/* ---------- style section ---------- */
+section{padding:52px 0;border-bottom:1px solid var(--line)}
+.shead{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:6px}
+.snum{font-variant-numeric:tabular-nums;color:var(--dim);font-size:13px;letter-spacing:.14em}
+.sname{font-size:21px;font-weight:620;letter-spacing:-.01em}
+.stag{font-size:12px;color:var(--dim);border:1px solid var(--line);padding:3px 9px;border-radius:999px}
+.swhy{color:var(--dim);font-size:14.5px;line-height:1.6;max-width:640px;margin:0 0 30px}
+.row{display:flex;gap:34px;flex-wrap:wrap;align-items:flex-start}
+.cell{display:flex;flex-direction:column;align-items:center;gap:11px}
+.clabel{font-size:12px;color:var(--dim);letter-spacing:.03em}
+
+/* ---------- watch hardware ---------- */
+.watch{
+  width:224px;height:272px;border-radius:58px;padding:11px;position:relative;
+  background:linear-gradient(150deg,#55555C,#232328 42%,#3E3E45 72%,#1A1A1E);
+  box-shadow:0 20px 44px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.07) inset;
+}
+.watch::after{ /* digital crown */
+  content:"";position:absolute;right:-5px;top:78px;width:7px;height:34px;border-radius:3px;
+  background:linear-gradient(90deg,#6A6A72,#2A2A30);
+}
+.watch::before{ /* side button */
+  content:"";position:absolute;right:-3px;top:132px;width:4px;height:26px;border-radius:3px;
+  background:linear-gradient(90deg,#55555C,#25252A);
+}
+.screen{
+  width:100%;height:100%;border-radius:48px;overflow:hidden;position:relative;
+  display:flex;flex-direction:column;
+}
+
+/* ================= SHARED SCREEN LAYOUT ================= */
+.sc{flex:1;display:flex;flex-direction:column;padding:16px 19px 17px;position:relative;z-index:2}
+.sc-top{font-size:12.5px;font-weight:600;letter-spacing:.01em;margin-bottom:2px}
+.sc-mid{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;min-height:0}
+.sc-acts{display:flex;gap:7px;align-items:stretch}
+.btn{
+  flex:1;border:0;font:inherit;font-size:14px;font-weight:600;border-radius:999px;
+  padding:11px 6px;cursor:default;display:flex;align-items:center;justify-content:center;gap:6px;
+}
+.btn.sq{flex:0 0 46px;padding:11px 0}
+.btn svg{width:17px;height:17px}
+.big{font-size:60px;line-height:.92;font-weight:300;font-variant-numeric:tabular-nums;letter-spacing:-.03em}
+.sub{font-size:12px;opacity:.6;text-align:center;line-height:1.3}
+.glyph{width:48px;height:48px}
+.beast{width:92px;height:92px;margin-bottom:-4px}
+.ring{width:132px;height:132px;display:block}
+.ring .trk{opacity:.16}
+.chips{display:flex;gap:5px;margin-top:3px}
+.chips i{
+  font-style:normal;font-size:10.5px;width:19px;height:19px;border-radius:50%;
+  display:grid;place-items:center;font-variant-numeric:tabular-nums;
+}
+
+/* ================= 1. watchOS native ================= */
+.st-native .screen{background:#000;color:#fff;font-family:-apple-system,"SF Pro Text","Helvetica Neue",sans-serif}
+.st-native .sc-top{color:#30D158;text-transform:none}
+.st-native .big{font-weight:250}
+.st-native .ring .trk{stroke:#30D158}
+.st-native .ring .val{stroke:#30D158}
+.st-native .btn{background:#1F1F22;color:#fff}
+.st-native .btn.pri{background:#30D158;color:#00150A}
+.st-native .glyph{color:#30D158}
+.st-native .chips i{background:#1F1F22;color:#8E8E93}
+
+/* ================= 2. Clay ================= */
+.st-clay .screen{
+  background:radial-gradient(120% 90% at 50% 0%,#F0EAE1,#D9CFC2 78%);
+  color:#4B4237;font-family:ui-rounded,"SF Pro Rounded","Nunito",system-ui,sans-serif;
+}
+.st-clay .sc-top{color:#9A8875;font-weight:700}
+.st-clay .big{font-weight:600;color:#6E5E4C}
+.st-clay .ring .trk{stroke:#C6B8A6}
+.st-clay .ring .val{stroke:#B98A6B;stroke-linecap:round}
+.st-clay .glyph{color:#B98A6B}
+.st-clay .btn{
+  background:linear-gradient(180deg,#F6F1E9,#DFD4C6);color:#5C5243;font-weight:700;
+  box-shadow:0 3px 0 #BCAE9C,0 6px 12px rgba(94,78,58,.22),0 1px 0 rgba(255,255,255,.9) inset;
+}
+.st-clay .btn.pri{
+  background:linear-gradient(180deg,#CE9B78,#B07A58);color:#FFF6EE;
+  box-shadow:0 3px 0 #8E6142,0 6px 13px rgba(94,60,34,.3),0 1px 0 rgba(255,255,255,.35) inset;
+}
+.st-clay .chips i{background:#CDC0B0;color:#6B5F4F;font-weight:700}
+.st-clay .sub{opacity:.72}
+
+/* ================= 3. Fauna ================= */
+.st-fauna .screen{
+  --ink:#CFE3C2; --bg2:#0E1A14; --accent:#F2B33D;
+  background:radial-gradient(130% 100% at 50% 8%,#1B2E22,#0A140E 80%);
+  color:#E4EFDD;font-family:ui-rounded,"SF Pro Rounded","Nunito",system-ui,sans-serif;
+}
+.st-fauna .sc-top{color:#F2B33D;font-weight:700;letter-spacing:.02em}
+.st-fauna .big{font-weight:500;color:#F2B33D}
+.st-fauna .ring .trk{stroke:#2C4634}
+.st-fauna .ring .val{stroke:#F2B33D;stroke-linecap:round}
+.st-fauna .btn{background:#22392A;color:#CFE3C2;font-weight:700}
+.st-fauna .btn.pri{background:#F2B33D;color:#16240F}
+.st-fauna .chips i{background:#22392A;color:#9CBB93;font-weight:700}
+.st-fauna .beast{width:74px;height:74px;margin-bottom:-6px}
+.st-fauna .sc-mid .big{font-size:46px}
+.st-fauna .latin{font-size:9.5px;font-style:italic;opacity:.5;letter-spacing:.02em}
+
+/* ================= 4. Mono / low-parse ================= */
+.st-mono .screen{background:#000;color:#fff;font-family:ui-monospace,"SF Mono","JetBrains Mono",monospace}
+.st-mono .sc{padding:17px 19px 17px}
+.st-mono .sc-top{text-transform:uppercase;letter-spacing:.2em;font-size:10.5px;font-weight:700;
+  border-bottom:2px solid #fff;padding-bottom:9px;margin-bottom:0}
+.st-mono .big{font-weight:700;font-size:64px;letter-spacing:-.04em}
+.st-mono .sub{text-transform:uppercase;letter-spacing:.17em;font-size:10px;opacity:1}
+.st-mono .btn{background:#000;color:#fff;border:2px solid #fff;border-radius:0;
+  text-transform:uppercase;letter-spacing:.13em;font-size:11px;font-weight:700}
+.st-mono .btn.pri{background:#fff;color:#000}
+.st-mono .sc-acts{gap:8px}
+.st-mono .btn.sq{flex:0 0 50px}
+.st-mono .chips i{border:2px solid #fff;border-radius:0;font-weight:700;width:21px;height:21px}
+.st-mono .rule{width:100%;height:2px;background:#fff;margin:2px 0}
+
+/* ================= 5. Riso ================= */
+.st-riso .screen{
+  background:#F4EEE2;color:#2B2620;
+  font-family:"Iowan Old Style","Palatino Linotype",Georgia,ui-serif,serif;
+}
+.st-riso .screen::after{ /* print grain */
+  content:"";position:absolute;inset:0;z-index:3;pointer-events:none;mix-blend-mode:multiply;opacity:.3;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/></filter><rect width='120' height='120' filter='url(%23n)' opacity='.5'/></svg>");
+}
+.st-riso .sc-top{color:#0D7C8C;font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:10.5px}
+.st-riso .big{font-weight:600;color:#FF4B3E}
+.st-riso .ring .trk{stroke:#0D7C8C;opacity:.22}
+.st-riso .ring .val{stroke:#FF4B3E;stroke-linecap:round}
+.st-riso .glyph{color:#0D7C8C}
+.st-riso .btn{background:transparent;color:#0D7C8C;border:2.5px solid #0D7C8C;font-weight:700;border-radius:999px}
+.st-riso .btn.pri{background:#FF4B3E;border-color:#FF4B3E;color:#FDF6EA}
+.st-riso .chips i{border:2px solid #0D7C8C;color:#0D7C8C;font-weight:700;width:21px;height:21px}
+.st-riso .sub{opacity:.66}
+
+/* ---------- fauna legend ---------- */
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:34px}
+.lcard{
+  flex:1 1 168px;border:1px solid var(--line);border-radius:15px;padding:14px;
+  background:linear-gradient(170deg,#14211A,#0D1410);
+  --ink:#CFE3C2; --bg2:#0E1A14; --accent:#F2B33D;
+}
+.lcard svg{width:52px;height:52px;display:block;margin-bottom:9px}
+.lsense{font-size:11px;color:#F2B33D;letter-spacing:.09em;text-transform:uppercase;font-weight:700}
+.lname{font-size:14.5px;font-weight:620;margin:3px 0 5px}
+.lwhy{font-size:11.6px;line-height:1.5;color:var(--dim)}
+.lwhy em{font-style:italic;opacity:.8}
+
+footer{padding:46px 0;color:var(--dim);font-size:13.5px;line-height:1.7;max-width:660px}
+footer code{background:var(--page2);padding:1px 6px;border-radius:5px;font-size:12.5px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1 id="h1"></h1>
+    <p class="lede" id="lede"></p>
+    <div class="bar" id="bar"></div>
+  </header>
+  <main id="board"></main>
+  <footer id="foot"></footer>
+</div>
+<script>
+/* Hand-authored SVG. No generated imagery — deliberate: the recipient
+   has publicly said AI art is a dealbreaker for her projects. */
+
+const ICON = {
+  eye: `<svg viewBox="0 0 48 48" fill="none"><path d="M3 24s7.6-12.5 21-12.5S45 24 45 24s-7.6 12.5-21 12.5S3 24 3 24z" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><circle cx="24" cy="24" r="6.5" fill="currentColor"/></svg>`,
+  ear: `<svg viewBox="0 0 48 48" fill="none"><path d="M15 21a9 9 0 1118 0c0 6.5-6.5 7.5-6.5 13.5A5.5 5.5 0 0121 40" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M22 22a3.4 3.4 0 016.8 0c0 3.4-3.4 3.6-3.4 7.2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>`,
+  hand: `<svg viewBox="0 0 48 48" fill="none"><path d="M17 27V13.5a3.2 3.2 0 016.4 0V25M23.4 25V10.5a3.2 3.2 0 016.4 0V26M29.8 26V15.5a3.2 3.2 0 016.4 0V31c0 7.7-5.2 12.5-12.3 12.5S11.5 38.5 11.5 31.5v-8.8a3.2 3.2 0 016.4 0V27" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  nose: `<svg viewBox="0 0 48 48" fill="none"><path d="M27 6c0 10-2.5 14.5-6 19.5-2.6 3.7-1 7.5 2.6 7.5H26" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M17.5 33c0 5 3.5 8 7 8s7-2.6 7-7.4c0-3-1.6-4.6-3.6-5.6" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><circle cx="20.5" cy="35.5" r="2" fill="currentColor"/></svg>`,
+  taste: `<svg viewBox="0 0 48 48" fill="none"><path d="M8 17h32c0 11.5-7.2 20-16 20S8 28.5 8 17z" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="M8 17c4-4 9-6 16-6s12 2 16 6" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M18 29c0-3.4 2.7-6 6-6s6 2.6 6 6-2.7 8-6 8-6-4.6-6-8z" fill="currentColor"/></svg>`,
+  mic: `<svg viewBox="0 0 48 48" fill="none"><rect x="18" y="5" width="12" height="22" rx="6" fill="currentColor"/><path d="M11 22a13 13 0 0026 0" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/><path d="M24 35v8" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/></svg>`,
+  check: `<svg viewBox="0 0 48 48" fill="none"><path d="M9 25l10 10L39 14" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+};
+
+/* Five animals, each a real record-holder for the sense it stands for.
+   Chosen so a biologist can argue with the list — that's the conversation starter. */
+const FAUNA = {
+  /* Salticidae — sharpest eyes of any spider; the principal eyes have a moving retina.
+     Also: she has posted about loving jumping spiders specifically. */
+  spider: `<svg viewBox="0 0 100 100" fill="none">
+    <g stroke="var(--ink)" stroke-width="3.4" stroke-linecap="round">
+      <path d="M36 52C26 46 20 36 18 27M36 56C25 55 16 50 10 43M37 61C27 64 20 70 16 79M40 66c-6 7-8 14-8 22"/>
+      <path d="M64 52c10-6 16-16 18-25M64 56c11-1 20-6 26-13M63 61c10 3 17 9 21 18M60 66c6 7 8 14 8 22"/>
+    </g>
+    <ellipse cx="50" cy="66" rx="20" ry="22" fill="var(--ink)"/>
+    <ellipse cx="50" cy="63" rx="12" ry="13" fill="var(--bg2)" opacity=".35"/>
+    <ellipse cx="50" cy="40" rx="21" ry="18" fill="var(--ink)"/>
+    <circle cx="41" cy="41" r="8.6" fill="var(--accent)"/><circle cx="59" cy="41" r="8.6" fill="var(--accent)"/>
+    <circle cx="41" cy="42" r="4.4" fill="#10160F"/><circle cx="59" cy="42" r="4.4" fill="#10160F"/>
+    <circle cx="43" cy="39.5" r="1.7" fill="#fff"/><circle cx="61" cy="39.5" r="1.7" fill="#fff"/>
+    <circle cx="31" cy="33" r="3.1" fill="var(--accent)"/><circle cx="69" cy="33" r="3.1" fill="var(--accent)"/>
+    <circle cx="38" cy="28" r="2.2" fill="var(--accent)"/><circle cx="62" cy="28" r="2.2" fill="var(--accent)"/>
+  </svg>`,
+  /* Tyto alba — asymmetric ear openings let it strike prey in total darkness. */
+  owl: `<svg viewBox="0 0 100 100" fill="none">
+    <path d="M50 14c17 0 29 12 29 30 0 24-14 42-29 42S21 68 21 44c0-18 12-30 29-30z" fill="var(--ink)"/>
+    <path d="M50 22c12 0 21 9 21 22 0 18-10 31-21 31S29 62 29 44c0-13 9-22 21-22z" fill="var(--bg2)" opacity=".28"/>
+    <circle cx="39" cy="43" r="8.2" fill="var(--accent)"/><circle cx="61" cy="43" r="8.2" fill="var(--accent)"/>
+    <circle cx="39" cy="44" r="4.6" fill="#10160F"/><circle cx="61" cy="44" r="4.6" fill="#10160F"/>
+    <circle cx="41" cy="41" r="1.8" fill="#fff"/><circle cx="63" cy="41" r="1.8" fill="#fff"/>
+    <path d="M50 50l5 9h-10l5-9z" fill="var(--accent)"/>
+    <path d="M50 60c0 8-3 14-3 14M50 60c0 8 3 14 3 14" stroke="var(--bg2)" stroke-width="2.4" opacity=".5" stroke-linecap="round"/>
+  </svg>`,
+  /* Condylura cristata — 22 rays, ~25 000 Eimer's organs; the most sensitive
+     touch organ measured in any mammal. */
+  mole: `<svg viewBox="0 0 100 100" fill="none">
+    <path d="M82 58c8 4 12 10 13 16" stroke="var(--ink)" stroke-width="4.5" stroke-linecap="round"/>
+    <path d="M24 54c2-11 12-18 28-18s30 8 30 18-12 19-30 19-26-8-28-19z" fill="var(--ink)"/>
+    <g stroke="var(--accent)" stroke-width="3.4" stroke-linecap="round">
+      <path d="M24 54L7 54"/>
+      <path d="M24 54L8 48.2"/><path d="M24 54L8 59.8"/>
+      <path d="M24 54L11 43.1"/><path d="M24 54L11 64.9"/>
+      <path d="M24 54L15.5 39.3"/><path d="M24 54L15.5 68.7"/>
+      <path d="M24 54L21 37"/><path d="M24 54L21 71"/>
+      <path d="M24 54L27 38"/><path d="M24 54L27 70"/>
+    </g>
+    <circle cx="24" cy="54" r="5.4" fill="var(--accent)"/>
+    <circle cx="41" cy="48" r="2.8" fill="var(--bg2)"/>
+    <g stroke="var(--accent)" stroke-width="3" stroke-linecap="round">
+      <path d="M38 71l-4 9"/><path d="M44 72l-1 9"/><path d="M50 71l3 9"/>
+    </g>
+    <path d="M62 66c7 0 12 2 16 6" stroke="var(--bg2)" stroke-width="2.4" opacity=".4" stroke-linecap="round"/>
+  </svg>`,
+  /* Ursidae — olfactory epithelium several times larger than a bloodhound's. */
+  bear: `<svg viewBox="0 0 100 100" fill="none">
+    <circle cx="25" cy="27" r="12" fill="var(--ink)"/><circle cx="75" cy="27" r="12" fill="var(--ink)"/>
+    <circle cx="25" cy="27" r="5.5" fill="var(--accent)" opacity=".55"/><circle cx="75" cy="27" r="5.5" fill="var(--accent)" opacity=".55"/>
+    <path d="M50 22c19 0 31 14 31 33 0 21-14 32-31 32S19 76 19 55c0-19 12-33 31-33z" fill="var(--ink)"/>
+    <circle cx="37" cy="50" r="4.2" fill="var(--bg2)"/><circle cx="63" cy="50" r="4.2" fill="var(--bg2)"/>
+    <ellipse cx="50" cy="70" rx="17" ry="14" fill="var(--bg2)" opacity=".3"/>
+    <path d="M50 58c7 0 12 4 12 9s-5 8-12 8-12-3-12-8 5-9 12-9z" fill="var(--accent)"/>
+    <path d="M42 64c3-2 5-2 8-2s5 0 8 2" stroke="#10160F" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M50 75v8" stroke="var(--ink)" stroke-width="2.6" stroke-linecap="round"/>
+  </svg>`,
+  /* Siluriformes — taste buds over the entire body surface, ~175 000 in a catfish. */
+  catfish: `<svg viewBox="0 0 100 100" fill="none">
+    <path d="M14 50c0-13 14-21 32-21s34 8 34 21-16 21-34 21S14 63 14 50z" fill="var(--ink)"/>
+    <path d="M80 50l14-13v26L80 50z" fill="var(--ink)"/>
+    <path d="M52 29c2-8 8-12 8-12M52 71c2 8 8 12 8 12" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"/>
+    <g stroke="var(--accent)" stroke-width="3.2" stroke-linecap="round">
+      <path d="M20 44C12 34 8 30 4 28"/><path d="M20 48C11 44 7 43 2 43"/>
+      <path d="M20 56c-8 10-12 14-16 16"/><path d="M20 52c-9 4-13 5-18 5"/>
+    </g>
+    <circle cx="27" cy="45" r="4.6" fill="var(--bg2)"/><circle cx="27" cy="45" r="2.2" fill="#10160F"/>
+    <path d="M22 57c5 3 10 4 14 4" stroke="var(--bg2)" stroke-width="2.4" opacity=".55" stroke-linecap="round"/>
+  </svg>`,
+};
+
+/* ------------------------------------------------------------------ copy */
+const T = {
+  uk: {
+    h1: "Sensory Anchor — 5·4·3·2·1 на Apple Watch",
+    lede: `Три екрани: <b>таймер</b> → <b>крок</b> → <b>готово</b>. Таймер зудить кожні 30 хвилин,
+           ти називаєш 5 речей, які бачиш, 4 які чуєш, 3 дотики, 2 запахи, 1 смак.
+           Один тап «Готово» або надиктувати голосом — і воно збережеться.
+           Нижче той самий продукт у п'яти різних візуальних мовах.`,
+    lang: "Мова макетів",
+    screens: ["Таймер", "Крок", "Готово"],
+    timerSub: "до наступної зупинки",
+    ritual: "5·4·3·2·1",
+    ok: "Готово", say: "Сказати",
+    doneTitle: "Ти впорався", doneSub: "Ще раз через 30 хв?",
+    yes: "Так", later: "Пізніше",
+    senses: [
+      { name: "Бачу",      n: 5, sub: "речей навколо",   icon: "eye"   },
+      { name: "Чую",       n: 4, sub: "звуки",           icon: "ear"   },
+      { name: "Відчуваю",  n: 3, sub: "дотики тілом",    icon: "hand"  },
+      { name: "Нюхаю",     n: 2, sub: "запахи",          icon: "nose"  },
+      { name: "Смакую",    n: 1, sub: "смак у роті",     icon: "taste" },
+    ],
+    beasts: [
+      { sense:"Бачу",     name:"Павук-стрибун", latin:"Salticidae",          art:"spider",  why:"Найгостріший зір серед павуків: головні очі мають рухому сітківку — він буквально наводить фокус." },
+      { sense:"Чую",      name:"Сипуха",        latin:"Tyto alba",           art:"owl",     why:"Вушні отвори розташовані асиметрично, тому вона чує здобич у трьох вимірах у повній темряві." },
+      { sense:"Відчуваю", name:"Зіркорил",      latin:"Condylura cristata",  art:"mole",    why:"22 промені, ~25 000 органів Еймера — найчутливіший дотиковий орган, виміряний у ссавців." },
+      { sense:"Нюхаю",    name:"Ведмідь",       latin:"Ursidae",             art:"bear",    why:"Нюховий епітелій у рази більший, ніж у собаки-шукача." },
+      { sense:"Смакую",   name:"Сом",           latin:"Siluriformes",        art:"catfish", why:"Смакові рецептори по всьому тілу — приблизно 175 000. Він пробує воду на смак усім собою." },
+    ],
+    styles: [
+      { id:"native", name:"watchOS Native", tag:"контроль",
+        why:"Рідний словник системи: чорний OLED, SF, зелений акцент, капсульні кнопки на всю ширину. Нічого не вигадано — і саме тому воно не сперечається з рештою годинника о 3-й ночі." },
+      { id:"clay", name:"Clay", tag:"сенсорно-м'який",
+        why:"Ні чистого білого, ні чистого чорного, ні гострих кутів. Приглушені теплі тони й товсті м'які кнопки для станів, коли контраст сам по собі вже болить." },
+      { id:"fauna", name:"Fauna", tag:"тваринний",
+        why:"Кожне чуття отримує тварину, яка тримає по ньому рекорд. Це не декор: замість «зроби вправу» ти на секунду стаєш павуком-стрибуном. Плюс це дає привід щоразу дізнаватись щось нове." },
+      { id:"mono", name:"Mono", tag:"режим перевантаження",
+        why:"Нуль декору, максимальний контраст, величезні цифри, жодних іконок для розпізнавання. Для моменту, коли мозок уже не парсить картинки, а таймер усе одно зудить." },
+      { id:"riso", name:"Riso", tag:"паперовий",
+        why:"Дві фарби на теплому папері й друкарське зерно. Найменш схоже на «ще один трекер» — і візуально стикується з садом нав'язливих думок." },
+    ],
+    foot: `Усі 15 екранів — рукописні SVG і CSS, без жодної згенерованої картинки.
+           Файли: <code>index.html</code>, <code>app.js</code>, <code>art.js</code>.`,
+  },
+  en: {
+    h1: "Sensory Anchor — 5·4·3·2·1 on Apple Watch",
+    lede: `Three screens: <b>timer</b> → <b>step</b> → <b>done</b>. The timer nags every 30 minutes,
+           you name 5 things you see, 4 you hear, 3 you feel, 2 you smell, 1 you taste.
+           One tap on Done, or dictate it — either way it gets saved.
+           Below: the same product in five different visual languages.`,
+    lang: "Mockup language",
+    screens: ["Timer", "Step", "Done"],
+    timerSub: "until the next stop",
+    ritual: "5·4·3·2·1",
+    ok: "Done", say: "Say it",
+    doneTitle: "You did it", doneSub: "Again in 30 min?",
+    yes: "Yes", later: "Later",
+    senses: [
+      { name:"See",   n:5, sub:"things around you", icon:"eye"   },
+      { name:"Hear",  n:4, sub:"sounds",            icon:"ear"   },
+      { name:"Feel",  n:3, sub:"points of contact", icon:"hand"  },
+      { name:"Smell", n:2, sub:"smells",            icon:"nose"  },
+      { name:"Taste", n:1, sub:"taste in my mouth", icon:"taste" },
+    ],
+    beasts: [
+      { sense:"See",   name:"Jumping spider",  latin:"Salticidae",         art:"spider",  why:"Sharpest eyes of any spider — the principal eyes have a moving retina, so it literally aims its focus." },
+      { sense:"Hear",  name:"Barn owl",        latin:"Tyto alba",          art:"owl",     why:"Asymmetric ear openings let it locate prey in three dimensions in total darkness." },
+      { sense:"Feel",  name:"Star-nosed mole", latin:"Condylura cristata", art:"mole",    why:"22 rays, ~25,000 Eimer's organs — the most sensitive touch organ measured in any mammal." },
+      { sense:"Smell", name:"Bear",            latin:"Ursidae",            art:"bear",    why:"Olfactory epithelium several times larger than a tracking dog's." },
+      { sense:"Taste", name:"Catfish",         latin:"Siluriformes",       art:"catfish", why:"Taste buds over its entire body — around 175,000. It tastes the water with all of itself." },
+    ],
+    styles: [
+      { id:"native", name:"watchOS Native", tag:"control",
+        why:"The system's own vocabulary: black OLED, SF, green accent, full-width capsule buttons. Nothing invented — which is exactly why it won't fight the rest of the watch at 3am." },
+      { id:"clay", name:"Clay", tag:"sensory-soft",
+        why:"No pure white, no pure black, no sharp corners. Muted warm tones and thick soft buttons for states where contrast itself already hurts." },
+      { id:"fauna", name:"Fauna", tag:"animal",
+        why:"Each sense gets the animal that holds the record for it. Not decoration: instead of \"do the exercise\" you get to be a jumping spider for a second — and learn something every time." },
+      { id:"mono", name:"Mono", tag:"overload mode",
+        why:"Zero decoration, maximum contrast, huge numerals, no icons to decode. For the moment the brain has stopped parsing pictures but the timer is buzzing anyway." },
+      { id:"riso", name:"Riso", tag:"paper",
+        why:"Two inks on warm paper with print grain. The least tracker-like of the five — and it visually connects to the garden of intrusive thoughts." },
+    ],
+    foot: `All 15 screens are hand-written SVG and CSS, with zero generated imagery.
+           Files: <code>index.html</code>, <code>app.js</code>, <code>art.js</code>.`,
+  },
+};
+
+/* ------------------------------------------------------------ state */
+let LANG = "uk";
+let SENSE = 0;              /* which of the five steps screen 2 shows */
+const L = () => T[LANG];
+
+/* ------------------------------------------------------------ screens */
+function ring(pct, label, sub, styleId) {
+  /* r=56 → circumference 351.86 */
+  const C = 351.86, off = C * (1 - pct);
+  const arc = styleId === "mono" ? "" : `
+    <svg class="ring" viewBox="0 0 128 128">
+      <circle class="trk" cx="64" cy="64" r="56" fill="none" stroke-width="7"/>
+      <circle class="val" cx="64" cy="64" r="56" fill="none" stroke-width="7"
+              stroke-dasharray="${C}" stroke-dashoffset="${off}"
+              transform="rotate(-90 64 64)"/>
+      <text x="64" y="66" text-anchor="middle" dominant-baseline="middle"
+            fill="currentColor" font-size="30" font-family="inherit"
+            font-weight="${styleId === "clay" || styleId === "fauna" ? 600 : 300}"
+            letter-spacing="-1">${label}</text>
+    </svg>`;
+  return arc || `<div class="big">${label}</div><div class="rule"></div>`;
+}
+
+function screenTimer(st) {
+  const t = L();
+  return `<div class="sc">
+    <div class="sc-top">${t.ritual}</div>
+    <div class="sc-mid">
+      ${ring(0.58, "12:40", "", st.id)}
+      <div class="sub">${t.timerSub}</div>
+    </div>
+  </div>`;
+}
+
+function screenStep(st) {
+  const t = L(), s = t.senses[SENSE];
+  const art = st.id === "fauna"
+    ? `<div class="beast">${FAUNA[t.beasts[SENSE].art]}</div>
+       <div class="latin">${t.beasts[SENSE].name}</div>`
+    : st.id === "mono" ? "" : `<div class="glyph">${ICON[s.icon]}</div>`;
+  return `<div class="sc">
+    <div class="sc-top">${s.name}</div>
+    <div class="sc-mid">
+      ${art}
+      <div class="big">${s.n}</div>
+      <div class="sub">${s.sub}</div>
+    </div>
+    <div class="sc-acts">
+      <button class="btn pri">${st.id === "mono" ? t.ok : ICON.check + t.ok}</button>
+      <button class="btn sq" aria-label="${t.say}">${ICON.mic}</button>
+    </div>
+  </div>`;
+}
+
+function screenDone(st) {
+  const t = L();
+  const art = st.id === "fauna"
+    ? `<div class="beast">${FAUNA.catfish}</div>`
+    : st.id === "mono" ? "" : `<div class="glyph">${ICON.check}</div>`;
+  return `<div class="sc">
+    <div class="sc-top">${t.doneTitle}</div>
+    <div class="sc-mid">
+      ${art}
+      <div class="chips">${t.senses.map(s => `<i>${s.n}</i>`).join("")}</div>
+      <div class="sub">${t.doneSub}</div>
+    </div>
+    <div class="sc-acts">
+      <button class="btn pri">${t.yes}</button>
+      <button class="btn">${t.later}</button>
+    </div>
+  </div>`;
+}
+
+const SCREENS = [screenTimer, screenStep, screenDone];
+
+/* ------------------------------------------------------------ render */
+function render() {
+  const t = L();
+  document.documentElement.lang = LANG;
+  document.getElementById("h1").textContent = t.h1;
+  document.getElementById("lede").innerHTML = t.lede;
+  document.getElementById("foot").innerHTML = t.foot;
+
+  document.getElementById("bar").innerHTML =
+    `<span class="chip" style="cursor:default;border:0;background:0;padding-left:0">${t.lang}</span>` +
+    ["uk", "en"].map(l =>
+      `<button class="chip" data-lang="${l}" aria-pressed="${l === LANG}">${l.toUpperCase()}</button>`
+    ).join("") +
+    `<span class="sep"></span>` +
+    t.senses.map((s, i) =>
+      `<button class="chip" data-sense="${i}" aria-pressed="${i === SENSE}">${s.n} · ${s.name}</button>`
+    ).join("");
+
+  document.getElementById("board").innerHTML = t.styles.map((st, i) => `
+    <section class="st-${st.id}">
+      <div class="shead">
+        <span class="snum">0${i + 1}</span>
+        <span class="sname">${st.name}</span>
+        <span class="stag">${st.tag}</span>
+      </div>
+      <p class="swhy">${st.why}</p>
+      <div class="row">
+        ${SCREENS.map((fn, j) => `
+          <div class="cell">
+            <div class="watch"><div class="screen">${fn(st)}</div></div>
+            <div class="clabel">${t.screens[j]}</div>
+          </div>`).join("")}
+      </div>
+      ${st.id === "fauna" ? `<div class="legend">${t.beasts.map(b => `
+        <div class="lcard">
+          ${FAUNA[b.art]}
+          <div class="lsense">${b.sense}</div>
+          <div class="lname">${b.name}</div>
+          <div class="lwhy"><em>${b.latin}</em> — ${b.why}</div>
+        </div>`).join("")}</div>` : ""}
+    </section>`).join("");
+}
+
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-lang],[data-sense]");
+  if (!b) return;
+  if (b.dataset.lang) LANG = b.dataset.lang;
+  else SENSE = +b.dataset.sense;
+  render();
+});
+
+render();
+
+</script>
+</body>
+</html>
