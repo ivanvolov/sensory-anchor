@@ -1,10 +1,11 @@
 # Sensory Anchor
 
-Apple Watch UI concepts for a 5-4-3-2-1 sensory grounding ritual.
+Apple Watch concepts for a 5-4-3-2-1 sensory grounding ritual.
 
-- `index.html` — three visual styles, three screens each (timer / step / done), UA+EN.
-- `demo.html` — clickable prototype of the Fauna style: the whole loop, including
-  voice capture and the blooming finish. `?auto=1` plays it hands-free.
-- `video/` — a recording of that run.
+- `forest.html` — the prototype. Whole ritual on one watch: timer, five steps,
+  voice capture, blooming finish. Tap the animal for a fact about it.
+  `?auto=1` plays the run hands-free.
+- `index.html` — three visual styles side by side (UA/EN).
+- `video/` — a recording of the run.
 
 All artwork is hand-authored SVG/CSS. No generated imagery.

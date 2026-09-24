@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="uk"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Лісовий мотив — три розкладки</title>
+<title>Sensory Anchor</title>
 <style>
 :root{
   --page:#0B0B0C; --page2:#131316; --fg:#EDEDEF; --dim:#8B8B93; --line:#26262B;
@@ -220,71 +220,61 @@ footer a{color:#9FB6A6;text-decoration:underline;text-underline-offset:3px}
 footer a:hover{color:#E4EFDD}
 footer code{background:var(--page2);padding:1px 6px;border-radius:5px;font-size:12.5px}
 
-body{background:#070A08;padding:0 0 90px}
-header{padding:52px 0 26px;border-bottom:1px solid #1B241D;margin-bottom:0}
-h1{font-size:28px}
-.lede{color:#7C8A7E}
-.bar{margin-top:20px}
-.bar .chip{border-color:#222E24;background:#101710;color:#7C8A7E}
-.bar .chip:hover{border-color:#3A4C3D;color:#E4EFDD}
-.bar .chip[aria-pressed="true"]{background:#F2B33D;color:#16240F;border-color:#F2B33D}
-.bar .lbl{color:#4E5C51;font-size:12px;letter-spacing:.06em;text-transform:uppercase;margin-right:2px}
-#board{display:flex;padding-top:46px}
-figcaption{display:flex;flex-direction:column;gap:6px}
-figcaption b{font-size:14.5px;font-weight:620;color:#E4EFDD}
-figcaption span{font-size:12.5px;line-height:1.55;color:#7C8A7E}
+html,body{height:100%}
+body{background:#000;display:grid;place-items:center;padding:0;overflow:hidden}
 
 .watch{width:292px;height:354px;border-radius:76px;padding:14px}
 .watch::after{top:102px;height:44px}.watch::before{top:173px;height:34px}
 .screen{border-radius:62px}
-.sc{padding:20px 21px 20px;cursor:default}
+.sc{padding:20px 21px 20px}
 [data-fact]{cursor:pointer}
 .st-fauna .sc-acts{gap:8px}
 .st-fauna .btn{font-size:15px;padding:13px 6px}
 .st-fauna .btn.sq{flex:0 0 54px}
+.btn{transition:transform .12s ease,filter .12s ease}
+.btn.press{transform:scale(.94);filter:brightness(1.12)}
 
-/* hero animal, centred, free to bleed past the edges without moving anything */
-.vhero .band{flex:1;position:relative;min-height:0}
-.vhero .heroslot{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-  width:var(--w);aspect-ratio:1;z-index:0}
-.st-fauna .vhero .heroslot .beast{position:static;width:100%;height:100%;aspect-ratio:auto;margin:0}
-
-/* ---- the header line: one row, three parts, no vertical drift ----
-   line-height:1 on every part removes the inline-box slack that made
-   the small words float above and below the numeral. */
-.topline{display:flex;justify-content:center;gap:7px;position:relative;z-index:2;white-space:nowrap}
+/* header line: one chip, three parts, aligned by the container */
+.topline{display:flex;justify-content:center;gap:8px;position:relative;z-index:2;white-space:nowrap}
 .topline span{line-height:1;display:inline-block}
 .bl{display:inline-block;width:0;height:0;font-size:0;line-height:0}
-
-/* A — shared baseline, sizes free */
-.tA{align-items:baseline}
-.tA .nm{font-size:14px;font-weight:800;color:#F2B33D;letter-spacing:.01em}
-.tA .nu{font-size:30px;font-weight:800;color:#FFD979;letter-spacing:-.03em}
-.tA .lb{font-size:14px;font-weight:500;color:#B9CDB0;opacity:.85}
-
-/* B — all caps, so cap heights line up as well as baselines */
-.tB{align-items:baseline;letter-spacing:.07em}
-.tB span{text-transform:uppercase}
-.tB .nm{font-size:14px;font-weight:800;color:#F2B33D}
-.tB .nu{font-size:19px;font-weight:800;color:#FFD979;letter-spacing:.02em}
-.tB .lb{font-size:14px;font-weight:600;color:#B9CDB0;opacity:.8}
-
-/* C — one chip; the container does the aligning, not the font */
-.tC{align-items:center;gap:8px;align-self:center;padding:6px 14px;border-radius:999px;
+.tC{align-items:center;align-self:center;padding:6px 14px;border-radius:999px;
   background:rgba(242,179,61,.13);border:1px solid rgba(242,179,61,.34);
   box-shadow:0 2px 10px rgba(0,0,0,.35)}
 .tC .nm{font-size:13px;font-weight:800;color:#F2B33D}
 .tC .nu{font-size:17px;font-weight:800;color:#FFD979;letter-spacing:-.01em}
 .tC .lb{font-size:13px;font-weight:500;color:#CFE0C6}
 
-/* D — one size for all three; nothing left to misalign */
-.tD{align-items:baseline;gap:6px}
-.tD span{font-size:16px}
-.tD .nm{font-weight:800;color:#F2B33D}
-.tD .nu{font-weight:800;color:#FFD979}
-.tD .lb{font-weight:500;color:#B9CDB0;opacity:.85}
+/* animal, centred, free to bleed without moving anything under it */
+.vhero .band{flex:1;position:relative;min-height:0}
+.vhero .heroslot{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:var(--w);aspect-ratio:1;z-index:0}
+.st-fauna .vhero .heroslot .beast{position:static;width:100%;height:100%;aspect-ratio:auto;margin:0}
 
-/* ---- the fact card ---- */
+/* screen transition */
+#sc.swap{animation:swap .34s cubic-bezier(.22,.9,.3,1) both}
+@keyframes swap{from{opacity:0;transform:translateY(9px) scale(.975)}}
+
+/* vine timer */
+.st-fauna .vine .stem{animation:none;transition:stroke-dashoffset .9s linear}
+.vine .pop{transform-box:fill-box;transform-origin:center;
+  animation:pop .5s cubic-bezier(.34,1.6,.64,1) both}
+@keyframes pop{from{transform:scale(0) rotate(-40deg)}}
+
+/* voice capture */
+.wave{display:flex;align-items:center;gap:4px;height:48px}
+.wave i{width:5px;border-radius:3px;background:#F2B33D;height:12px;
+  animation:wv calc(.62s + var(--i) * .07s) ease-in-out infinite alternate;
+  animation-delay:calc(var(--i) * -.11s)}
+@keyframes wv{from{height:8px;opacity:.55}to{height:44px;opacity:1}}
+.rec-t{font-size:15px;font-weight:800;color:#F2B33D;margin-top:10px}
+.said{font-size:15px;line-height:1.45;text-align:center;color:#E9F3E2;font-weight:600;
+  text-shadow:0 2px 10px rgba(0,0,0,.6)}
+.saved{display:flex;align-items:center;gap:6px;margin-top:14px;color:#8FC98A;
+  font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
+.saved svg{width:15px;height:15px}
+
+/* fact card */
 .screen .sc{transition:opacity .2s ease}
 .screen.facted .sc{opacity:0;pointer-events:none}
 .fact{position:absolute;inset:0;z-index:9;display:grid;place-items:center;padding:22px;
@@ -300,32 +290,23 @@ figcaption span{font-size:12.5px;line-height:1.55;color:#7C8A7E}
 .fact-lat{font-size:11px;font-style:italic;opacity:.6;margin-bottom:10px}
 .fact-why{font-size:12.5px;line-height:1.48;color:#DCEBD4}
 .fact-hint{font-size:10px;letter-spacing:.09em;text-transform:uppercase;opacity:.42;margin-top:14px}
+
+/* playback pointer — invisible unless ?auto=1 drives it */
+#cursor{position:fixed;left:0;top:0;width:38px;height:38px;margin:-19px 0 0 -19px;
+  border-radius:50%;border:2px solid rgba(255,255,255,.85);background:rgba(255,255,255,.14);
+  pointer-events:none;opacity:0;z-index:50;
+  transition:transform .6s cubic-bezier(.3,.8,.3,1),opacity .3s}
+#cursor.tap{background:rgba(255,255,255,.5)}
 </style></head>
 <body>
-<div class="wrap">
-  <header>
-    <h1>Лісовий мотив — крок ритуалу</h1>
-    <p class="lede">Рядок згори одним чипом, звір по центру на 72%, кнопки знизу.
-      <b style="color:#E4EFDD">Тапни по тварині</b> — відкриється факт про неї; тап будь-де повертає назад.</p>
-    <div class="bar">
-      <span class="lbl">Чуття</span>
-      <button class="chip" data-sense="0">5 · Бачу</button>
-      <button class="chip" data-sense="1">4 · Чую</button>
-      <button class="chip" data-sense="2">3 · Відчуваю</button>
-      <button class="chip" data-sense="3">2 · Нюхаю</button>
-      <button class="chip" data-sense="4">1 · Смакую</button>
-    </div>
-    <div class="bar">
-      <span class="lbl">Розмір звіра</span>
-      <button class="chip" data-size="60">60%</button>
-      <button class="chip" data-size="66">66%</button>
-      <button class="chip" data-size="72">72%</button>
-      <button class="chip" data-size="80">80%</button>
-      <button class="chip" data-size="92">92%</button>
-    </div>
-  </header>
-  <div id="board"></div>
+<div class="stage st-fauna">
+  <div class="watch"><div class="screen">
+    <div class="scene"><div class="fx-shaft"></div></div>
+    <div class="sc vhero" id="sc"></div>
+    <div class="fact"></div>
+  </div></div>
 </div>
+<div id="cursor"></div>
 <script>
 /* Hand-authored SVG. No generated imagery — deliberate: the recipient
    has publicly said AI art is a dealbreaker for her projects. */
@@ -503,90 +484,216 @@ const BOTANY = (() => {
   return { LEAF, back, mid, front, topLeft, topRight, sideL, sideR, vine, bloom, fireflies };
 })();
 
-/* Hero animal, one-line header above it.
-   Four ways to lock "Чую · 4 · звуки" onto a single vertical axis. */
+document.querySelector('.scene').insertAdjacentHTML('beforeend',
+  BOTANY.topLeft + BOTANY.topRight + BOTANY.sideL + BOTANY.sideR +
+  BOTANY.fireflies(4) + BOTANY.back + BOTANY.mid + BOTANY.front);
+/* Sensory Anchor — the whole ritual on one watch, forest motif.
+   Locked design: chip header line, animal at 72%, no page chrome.
+   ?auto=1 plays the run hands-free (used for the screen recording). */
+
+const SIZE  = 72;   /* animal slot, % of content width */
+const TOTAL = 7;    /* demo countdown in seconds, stands in for 30 min */
 
 const S = [
   { name:"Бачу",     n:5, sub:"речей навколо", art:"spider",  latin:"Павук-стрибун", lat:"Salticidae",
+    said:"дерево за вікном, чашка, лампа, кабель, кіт",
     why:"Найгостріший зір серед павуків: головні очі мають рухому сітківку, і він буквально наводить фокус, не рухаючи головою." },
   { name:"Чую",      n:4, sub:"звуки",         art:"owl",     latin:"Сипуха",        lat:"Tyto alba",
+    said:"холодильник, машина надворі, годинник, власний подих",
     why:"Вушні отвори розташовані асиметрично — одне вище за інше. Тому вона чує здобич у трьох вимірах і полює в абсолютній темряві." },
   { name:"Відчуваю", n:3, sub:"дотики тілом",  art:"mole",    latin:"Зіркорил",      lat:"Condylura cristata",
+    said:"спинка стільця, шкарпетки, тепло від чашки",
     why:"22 промені й близько 25 000 органів Еймера — найчутливіший дотиковий орган, виміряний у ссавців." },
   { name:"Нюхаю",    n:2, sub:"запахи",        art:"bear",    latin:"Ведмідь",       lat:"Ursidae",
+    said:"кава і мокрий асфальт",
     why:"Нюховий епітелій у рази більший, ніж у собаки-шукача. Запах падла ведмідь бере за двадцять кілометрів." },
   { name:"Смакую",   n:1, sub:"смак у роті",   art:"catfish", latin:"Сом",           lat:"Siluriformes",
+    said:"м'ята",
     why:"Смакові рецептори вкривають усе тіло — близько 175 000. Він пробує воду на смак кожним сантиметром себе." },
 ];
 
-/* <i class="bl"></i> is a zero-height inline-block: its box bottom sits exactly on the
-   baseline of the line it is in, so the checker can measure baselines instead of guessing. */
+/* zero-height probe: its box bottom sits on the baseline, so alignment stays checkable */
 const BL = '<i class="bl"></i>';
-const line = (cls, s) => `<div class="topline ${cls}">
-    <span class="nm">${s.name}${BL}</span>
-    <span class="nu">${s.n}${BL}</span>
-    <span class="lb">${s.sub}${BL}</span>
+const chip  = s => `<div class="topline tC"><span class="nm">${s.name}${BL}</span>` +
+                   `<span class="nu">${s.n}${BL}</span><span class="lb">${s.sub}${BL}</span></div>`;
+const chipT = t => `<div class="topline tC"><span class="nm">${t}${BL}</span></div>`;
+
+const ACTS = `<div class="sc-acts">
+    <button class="btn pri" data-act="ok">${ICON.check}Готово</button>
+    <button class="btn sq" data-act="mic" aria-label="Сказати">${ICON.mic}</button>
   </div>`;
 
+const LEAVES = 9;
+function vineAt(pct) {
+  const C = 351.86, off = C * (1 - pct);
+  let leaves = "";
+  for (let i = 0; i < LEAVES; i++) {
+    const frac = i / (LEAVES - 1);
+    if (frac > pct + 0.02) continue;
+    const deg = -90 + frac * 360, rad = (deg * Math.PI) / 180;
+    const x = 64 + 56 * Math.cos(rad), y = 64 + 56 * Math.sin(rad);
+    const fresh = frac > pct - 0.12 ? ' class="pop"' : "";
+    leaves += `<g${fresh} transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${(deg + (i % 2 ? 128 : -128)).toFixed(1)}) scale(.5)">
+        <path d="${BOTANY.LEAF}" fill="#7FC07A"/></g>`;
+  }
+  return `<svg class="ring vine" viewBox="0 0 128 128">
+      <circle cx="64" cy="64" r="56" fill="none" stroke="#1E3B28" stroke-width="6"/>
+      <circle class="stem" cx="64" cy="64" r="56" fill="none" stroke="#4E9B55" stroke-width="6"
+              stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${off.toFixed(1)}"
+              transform="rotate(-90 64 64)"/>
+      ${leaves}
+    </svg>`;
+}
 
-let sense = 3;   /* «Нюхаю · 2 · запахи» */
-let size  = 72;
+const mmss = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
+const sc = () => document.getElementById("sc");
+const screenEl = () => document.querySelector(".screen");
 
-function render() {
-  const s = S[sense];
-  document.getElementById("board").innerHTML = `
-    <div class="stage st-fauna">
-      <div class="watch"><div class="screen">
-        <div class="scene"><div class="fx-shaft"></div></div>
-        <div class="sc vhero">
-          ${line("tC", s)}
-          <div class="band"><div class="heroslot" style="--w:${size}%">
-            <div class="beast" data-fact>${FAUNA[s.art]}</div></div></div>
-          <div class="sc-acts">
-            <button class="btn pri">${ICON.check}Готово</button>
-            <button class="btn sq" aria-label="Сказати">${ICON.mic}</button>
-          </div>
-        </div>
-        <div class="fact"><div class="fact-in">
-          <div class="fact-art">${FAUNA[s.art]}</div>
-          <div class="fact-name">${s.latin}</div>
-          <div class="fact-lat">${s.lat}</div>
-          <div class="fact-why">${s.why}</div>
-          <div class="fact-hint">тапни будь-де, щоб повернутись</div>
-        </div></div>
-      </div></div>
+let state = "timer", step = 0, left = TOTAL, tick = null;
+
+function paint(html) {
+  const el = sc();
+  el.classList.remove("swap"); void el.offsetWidth;
+  el.innerHTML = html;
+  el.classList.add("swap");
+}
+
+const beast = s => `<div class="band"><div class="heroslot" style="--w:${SIZE}%">
+    <div class="beast" data-fact>${FAUNA[s.art]}</div></div></div>`;
+
+function viewTimer() {
+  paint(`${chipT("5·4·3·2·1")}
+    <div class="sc-mid">
+      <div class="dial">${vineAt((TOTAL - left) / TOTAL)}<span class="dial-t">${mmss(left)}</span></div>
+      <div class="sub">до наступної зупинки</div>
+    </div>`);
+}
+
+function viewStep() {
+  const s = S[step];
+  paint(`${chip(s)}${beast(s)}${ACTS}`);
+}
+
+function viewRec() {
+  const s = S[step];
+  paint(`${chip(s)}
+    <div class="sc-mid">
+      <div class="wave">${Array.from({length:9},(_,i)=>`<i style="--i:${i}"></i>`).join("")}</div>
+      <div class="rec-t">Слухаю…</div>
+    </div>
+    <div class="sc-acts"><button class="btn pri" data-act="stop">Досить</button></div>`);
+}
+
+function viewSaid() {
+  const s = S[step];
+  paint(`${chip(s)}
+    <div class="sc-mid">
+      <div class="said">«${s.said}»</div>
+      <div class="saved">${ICON.check}<span>записано</span></div>
+    </div>`);
+}
+
+function viewDone() {
+  paint(`${chipT("Ти впорався")}
+    <div class="sc-mid">
+      ${BOTANY.bloom}
+      <div class="chips">${S.map(s => `<i>${s.n}</i>`).join("")}</div>
+      <div class="sub">Ще раз через 30 хв?</div>
+    </div>
+    <div class="sc-acts">
+      <button class="btn pri" data-act="again">Так</button>
+      <button class="btn" data-act="later">Пізніше</button>
+    </div>`);
+}
+
+function setFact(s) {
+  document.querySelector(".fact").innerHTML = `<div class="fact-in">
+      <div class="fact-art">${FAUNA[s.art]}</div>
+      <div class="fact-name">${s.latin}</div>
+      <div class="fact-lat">${s.lat}</div>
+      <div class="fact-why">${s.why}</div>
+      <div class="fact-hint">тапни будь-де, щоб повернутись</div>
     </div>`;
+}
 
-  document.querySelector(".scene").insertAdjacentHTML("beforeend",
-    BOTANY.topLeft + BOTANY.topRight + BOTANY.sideL + BOTANY.sideR +
-    BOTANY.fireflies(4) + BOTANY.back + BOTANY.mid + BOTANY.front);
+function startTimer() {
+  state = "timer"; step = 0; left = TOTAL;
+  viewTimer();
+  clearInterval(tick);
+  tick = setInterval(() => {
+    left -= 1;
+    if (left <= 0) { clearInterval(tick); left = 0; viewTimer();
+      setTimeout(() => { state = "step"; viewStep(); }, 700); }
+    else viewTimer();
+  }, 1000);
+}
 
-  document.querySelectorAll("[data-sense]").forEach(b =>
-    b.setAttribute("aria-pressed", +b.dataset.sense === sense));
-  document.querySelectorAll("[data-size]").forEach(b =>
-    b.setAttribute("aria-pressed", +b.dataset.size === size));
+function advance() {
+  if (step >= S.length - 1) { state = "done"; viewDone(); }
+  else { step += 1; state = "step"; viewStep(); }
 }
 
 document.addEventListener("click", e => {
-  const c = e.target.closest("[data-sense]"), z = e.target.closest("[data-size]");
-  if (c) { sense = +c.dataset.sense; render(); return; }
-  if (z) { size = +z.dataset.size; render(); return; }
-
-  const scr = e.target.closest(".screen");
-  if (scr?.classList.contains("facted")) {
+  const scr = screenEl();
+  if (scr.classList.contains("facted")) {
     scr.classList.remove("facted");
     scr.querySelector(".fact").classList.remove("on");
     return;
   }
   const hit = e.target.closest("[data-fact]");
-  if (hit) {
-    const sc = hit.closest(".screen");
-    sc.classList.add("facted");
-    sc.querySelector(".fact").classList.add("on");
-  }
+  if (hit) { setFact(S[step]); scr.classList.add("facted");
+             scr.querySelector(".fact").classList.add("on"); return; }
+
+  const b = e.target.closest("[data-act]");
+  if (!b) return;
+  b.classList.add("press");
+  const act = b.dataset.act;
+  setTimeout(() => {
+    if (act === "ok") advance();
+    else if (act === "mic") { state = "rec"; viewRec(); }
+    else if (act === "stop") { state = "said"; viewSaid(); setTimeout(advance, 1700); }
+    else startTimer();
+  }, 130);
 });
 
-render();
+/* ------------------------------------------------ hands-free playback */
+const wait = ms => new Promise(r => setTimeout(r, ms));
+const cursor = () => document.getElementById("cursor");
+
+async function point(sel) {
+  const el = document.querySelector(sel);
+  if (!el) return;
+  const r = el.getBoundingClientRect(), c = cursor();
+  c.style.opacity = 1;
+  c.style.transform = `translate(${r.left + r.width / 2}px, ${r.top + r.height / 2}px)`;
+  await wait(650);
+  c.classList.add("tap");
+  await wait(180);
+  el.click();
+  c.classList.remove("tap");
+  await wait(120);
+}
+
+async function autoRun() {
+  startTimer();
+  await wait(TOTAL * 1000 + 1200);
+  await point('[data-act="ok"]');  await wait(900);   /* 5 — тапом */
+  await point('[data-fact]');      await wait(2600);  /* пасхалка */
+  await point('.fact.on');         await wait(700);
+  await point('[data-act="mic"]'); await wait(2100);  /* 4 — голосом */
+  await point('[data-act="stop"]'); await wait(2100);
+  await point('[data-act="ok"]');  await wait(900);   /* 3 */
+  await point('[data-act="mic"]'); await wait(2100);  /* 2 — голосом */
+  await point('[data-act="stop"]'); await wait(2100);
+  await point('[data-act="ok"]');  await wait(4200);  /* 1 → квітка */
+  await point('[data-act="again"]');
+  cursor().style.opacity = 0;
+  await wait(2600);
+  if (window.__mark) window.__mark("end", 0);
+}
+
+if (new URLSearchParams(location.search).has("auto")) autoRun();
+else startTimer();
 
 </script>
 </body></html>
