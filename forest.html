@@ -229,8 +229,7 @@ h1{font-size:28px}
 .bar .chip:hover{border-color:#3A4C3D;color:#E4EFDD}
 .bar .chip[aria-pressed="true"]{background:#F2B33D;color:#16240F;border-color:#F2B33D}
 .bar .lbl{color:#4E5C51;font-size:12px;letter-spacing:.06em;text-transform:uppercase;margin-right:2px}
-#board{display:flex;gap:34px;flex-wrap:wrap;padding-top:44px;align-items:flex-start}
-.cell{margin:0;display:flex;flex-direction:column;gap:14px;width:292px}
+#board{display:flex;padding-top:46px}
 figcaption{display:flex;flex-direction:column;gap:6px}
 figcaption b{font-size:14.5px;font-weight:620;color:#E4EFDD}
 figcaption span{font-size:12.5px;line-height:1.55;color:#7C8A7E}
@@ -305,9 +304,8 @@ figcaption span{font-size:12.5px;line-height:1.55;color:#7C8A7E}
 <body>
 <div class="wrap">
   <header>
-    <h1>Лісовий мотив — рядок згори</h1>
-    <p class="lede">Звір по центру, над ним один рядок: назва чуття, число, підпис.
-      Чотири способи посадити ці три частини на спільну вертикальну вісь, щоб нічого не плавало.
+    <h1>Лісовий мотив — крок ритуалу</h1>
+    <p class="lede">Рядок згори одним чипом, звір по центру на 72%, кнопки знизу.
       <b style="color:#E4EFDD">Тапни по тварині</b> — відкриється факт про неї; тап будь-де повертає назад.</p>
     <div class="bar">
       <span class="lbl">Чуття</span>
@@ -319,10 +317,11 @@ figcaption span{font-size:12.5px;line-height:1.55;color:#7C8A7E}
     </div>
     <div class="bar">
       <span class="lbl">Розмір звіра</span>
-      <button class="chip" data-size="88">88%</button>
-      <button class="chip" data-size="100">100%</button>
-      <button class="chip" data-size="115">115%</button>
-      <button class="chip" data-size="140">140%</button>
+      <button class="chip" data-size="60">60%</button>
+      <button class="chip" data-size="66">66%</button>
+      <button class="chip" data-size="72">72%</button>
+      <button class="chip" data-size="80">80%</button>
+      <button class="chip" data-size="92">92%</button>
     </div>
   </header>
   <div id="board"></div>
@@ -529,52 +528,38 @@ const line = (cls, s) => `<div class="topline ${cls}">
     <span class="lb">${s.sub}${BL}</span>
   </div>`;
 
-const TAKES = [
-  { id:"tA", title:"A · Спільна базова лінія",
-    note:"Кеглі різні, але всі три сидять на одній базовій лінії — так, як це робить набірник. Найтипографічніший варіант, «4» домінує." },
-  { id:"tB", title:"B · Капітеллю",
-    note:"Усе великими літерами з розрядкою, число трохи більше за решту. Базова лінія спільна, верхні межі теж збігаються, бо великі літери однакової висоти." },
-  { id:"tC", title:"C · Одна пілюля",
-    note:"Уся строка — один чип. Вирівнювання не на совісті шрифту: воно задане контейнером, елементи центруються по вертикалі всередині." },
-  { id:"tD", title:"D · Один кегль",
-    note:"Усі три одного розміру, число виділене лише кольором і жирністю. Розбігу не може бути в принципі — нічого розбігатись." },
-];
 
-let sense = 3;   /* «Нюхаю · 2 · запахи» — приклад із твого повідомлення */
-let size  = 115;
+let sense = 3;   /* «Нюхаю · 2 · запахи» */
+let size  = 72;
 
 function render() {
   const s = S[sense];
-  document.getElementById("board").innerHTML = TAKES.map(T => `
-    <figure class="cell">
-      <div class="stage st-fauna">
-        <div class="watch"><div class="screen">
-          <div class="scene"><div class="fx-shaft"></div></div>
-          <div class="sc vhero">
-            ${line(T.id, s)}
-            <div class="band"><div class="heroslot" style="--w:${size}%">
-              <div class="beast" data-fact>${FAUNA[s.art]}</div></div></div>
-            <div class="sc-acts">
-              <button class="btn pri">${ICON.check}Готово</button>
-              <button class="btn sq" aria-label="Сказати">${ICON.mic}</button>
-            </div>
+  document.getElementById("board").innerHTML = `
+    <div class="stage st-fauna">
+      <div class="watch"><div class="screen">
+        <div class="scene"><div class="fx-shaft"></div></div>
+        <div class="sc vhero">
+          ${line("tC", s)}
+          <div class="band"><div class="heroslot" style="--w:${size}%">
+            <div class="beast" data-fact>${FAUNA[s.art]}</div></div></div>
+          <div class="sc-acts">
+            <button class="btn pri">${ICON.check}Готово</button>
+            <button class="btn sq" aria-label="Сказати">${ICON.mic}</button>
           </div>
-          <div class="fact"><div class="fact-in">
-            <div class="fact-art">${FAUNA[s.art]}</div>
-            <div class="fact-name">${s.latin}</div>
-            <div class="fact-lat">${s.lat}</div>
-            <div class="fact-why">${s.why}</div>
-            <div class="fact-hint">тапни будь-де, щоб повернутись</div>
-          </div></div>
+        </div>
+        <div class="fact"><div class="fact-in">
+          <div class="fact-art">${FAUNA[s.art]}</div>
+          <div class="fact-name">${s.latin}</div>
+          <div class="fact-lat">${s.lat}</div>
+          <div class="fact-why">${s.why}</div>
+          <div class="fact-hint">тапни будь-де, щоб повернутись</div>
         </div></div>
-      </div>
-      <figcaption><b>${T.title}</b><span>${T.note}</span></figcaption>
-    </figure>`).join("");
+      </div></div>
+    </div>`;
 
-  document.querySelectorAll(".scene").forEach(sc =>
-    sc.insertAdjacentHTML("beforeend",
-      BOTANY.topLeft + BOTANY.topRight + BOTANY.sideL + BOTANY.sideR +
-      BOTANY.fireflies(4) + BOTANY.back + BOTANY.mid + BOTANY.front));
+  document.querySelector(".scene").insertAdjacentHTML("beforeend",
+    BOTANY.topLeft + BOTANY.topRight + BOTANY.sideL + BOTANY.sideR +
+    BOTANY.fireflies(4) + BOTANY.back + BOTANY.mid + BOTANY.front);
 
   document.querySelectorAll("[data-sense]").forEach(b =>
     b.setAttribute("aria-pressed", +b.dataset.sense === sense));
