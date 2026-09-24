@@ -224,56 +224,68 @@ body{background:#070A08;padding:0 0 90px}
 header{padding:52px 0 26px;border-bottom:1px solid #1B241D;margin-bottom:0}
 h1{font-size:28px}
 .lede{color:#7C8A7E}
+.bar{margin-top:20px}
 .bar .chip{border-color:#222E24;background:#101710;color:#7C8A7E}
 .bar .chip:hover{border-color:#3A4C3D;color:#E4EFDD}
 .bar .chip[aria-pressed="true"]{background:#F2B33D;color:#16240F;border-color:#F2B33D}
-.rowblock{padding:46px 0 10px;border-bottom:1px solid #141C16}
-.rowblock h2{font-size:19px;font-weight:620;color:#E4EFDD;margin:0 0 8px}
-.rnote{color:#7C8A7E;font-size:13.5px;line-height:1.6;max-width:720px;margin:0 0 30px}
-.row{display:flex;gap:30px;flex-wrap:wrap;align-items:flex-start}
-.cell{margin:0;display:flex;flex-direction:column;gap:12px;align-items:center}
-figcaption{font-size:12.5px;color:#7C8A7E;font-variant-numeric:tabular-nums}
+.bar .lbl{color:#4E5C51;font-size:12px;letter-spacing:.06em;text-transform:uppercase;margin-right:2px}
+#board{display:flex;gap:34px;flex-wrap:wrap;padding-top:44px;align-items:flex-start}
+.cell{margin:0;display:flex;flex-direction:column;gap:14px;width:292px}
+figcaption{display:flex;flex-direction:column;gap:6px}
+figcaption b{font-size:14.5px;font-weight:620;color:#E4EFDD}
+figcaption span{font-size:12.5px;line-height:1.55;color:#7C8A7E}
 
 .watch{width:292px;height:354px;border-radius:76px;padding:14px}
 .watch::after{top:102px;height:44px}.watch::before{top:173px;height:34px}
 .screen{border-radius:62px}
-.sc{padding:19px 21px 20px;cursor:default}
+.sc{padding:20px 21px 20px;cursor:default}
 [data-fact]{cursor:pointer}
-
-.pill{background:#F2B33D;color:#16240F;font-weight:800;font-size:12px;letter-spacing:.02em;
-  padding:3px 11px;border-radius:999px;box-shadow:0 2px 8px rgba(0,0,0,.4);white-space:nowrap}
-.pill.abs{position:absolute;top:19px;left:21px;z-index:3}
 .st-fauna .sc-acts{gap:8px}
 .st-fauna .btn{font-size:15px;padding:13px 6px}
 .st-fauna .btn.sq{flex:0 0 54px}
 
-/* the animal is sized as a share of the content width, never by a fixed px */
-.st-fauna .band .beast{width:var(--w);height:auto;aspect-ratio:1;margin:0;flex:0 0 auto}
-
-/* --- family 1: animal left, text right, one shared axis --- */
-.vside .band{flex:1;display:flex;align-items:center;gap:8px;min-height:0;margin-top:14px}
-.vside .txt{flex:1;min-width:0;display:flex;flex-direction:column;
-  align-items:flex-end;justify-content:center;text-align:right}
-.vside .num{font-size:46px;font-weight:800;color:#FFD979;line-height:.88;
-  letter-spacing:-.03em;text-shadow:0 2px 10px rgba(0,0,0,.5)}
-.vside .lbl{font-size:11.5px;line-height:1.25;color:#B9CDB0;opacity:.85;margin-top:5px}
-
-/* --- family 2: hero animal, caption centred on one line --- */
-.vhero .band{flex:1;position:relative;min-height:0;margin-top:12px}
-/* a slot does the centring; .beast keeps its own breathe transform */
-.vhero .heroslot{position:absolute;left:50%;top:47%;transform:translate(-50%,-50%);
+/* hero animal, centred, free to bleed past the edges without moving anything */
+.vhero .band{flex:1;position:relative;min-height:0}
+.vhero .heroslot{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
   width:var(--w);aspect-ratio:1;z-index:0}
-.st-fauna .vhero .heroslot .beast{position:static;width:100%;height:100%;
-  aspect-ratio:auto;margin:0}
-.vhero .line{position:relative;z-index:2;display:flex;align-items:baseline;
-  justify-content:center;gap:8px;margin:2px 0 12px}
-.vhero .line::before{content:"";position:absolute;inset:-14px -22px -10px;z-index:-1;
-  background:radial-gradient(closest-side,rgba(6,16,10,.82),rgba(6,16,10,0))}
-.vhero .num{font-size:36px;font-weight:800;color:#FFD979;line-height:1;letter-spacing:-.03em;
-  text-shadow:0 2px 10px rgba(0,0,0,.5)}
-.vhero .lbl{font-size:12.5px;color:#B9CDB0;opacity:.85}
+.st-fauna .vhero .heroslot .beast{position:static;width:100%;height:100%;aspect-ratio:auto;margin:0}
 
-/* --- the fact card --- */
+/* ---- the header line: one row, three parts, no vertical drift ----
+   line-height:1 on every part removes the inline-box slack that made
+   the small words float above and below the numeral. */
+.topline{display:flex;justify-content:center;gap:7px;position:relative;z-index:2;white-space:nowrap}
+.topline span{line-height:1;display:inline-block}
+.bl{display:inline-block;width:0;height:0;font-size:0;line-height:0}
+
+/* A — shared baseline, sizes free */
+.tA{align-items:baseline}
+.tA .nm{font-size:14px;font-weight:800;color:#F2B33D;letter-spacing:.01em}
+.tA .nu{font-size:30px;font-weight:800;color:#FFD979;letter-spacing:-.03em}
+.tA .lb{font-size:14px;font-weight:500;color:#B9CDB0;opacity:.85}
+
+/* B — all caps, so cap heights line up as well as baselines */
+.tB{align-items:baseline;letter-spacing:.07em}
+.tB span{text-transform:uppercase}
+.tB .nm{font-size:14px;font-weight:800;color:#F2B33D}
+.tB .nu{font-size:19px;font-weight:800;color:#FFD979;letter-spacing:.02em}
+.tB .lb{font-size:14px;font-weight:600;color:#B9CDB0;opacity:.8}
+
+/* C — one chip; the container does the aligning, not the font */
+.tC{align-items:center;gap:8px;align-self:center;padding:6px 14px;border-radius:999px;
+  background:rgba(242,179,61,.13);border:1px solid rgba(242,179,61,.34);
+  box-shadow:0 2px 10px rgba(0,0,0,.35)}
+.tC .nm{font-size:13px;font-weight:800;color:#F2B33D}
+.tC .nu{font-size:17px;font-weight:800;color:#FFD979;letter-spacing:-.01em}
+.tC .lb{font-size:13px;font-weight:500;color:#CFE0C6}
+
+/* D — one size for all three; nothing left to misalign */
+.tD{align-items:baseline;gap:6px}
+.tD span{font-size:16px}
+.tD .nm{font-weight:800;color:#F2B33D}
+.tD .nu{font-weight:800;color:#FFD979}
+.tD .lb{font-weight:500;color:#B9CDB0;opacity:.85}
+
+/* ---- the fact card ---- */
 .screen .sc{transition:opacity .2s ease}
 .screen.facted .sc{opacity:0;pointer-events:none}
 .fact{position:absolute;inset:0;z-index:9;display:grid;place-items:center;padding:22px;
@@ -293,17 +305,24 @@ figcaption{font-size:12.5px;color:#7C8A7E;font-variant-numeric:tabular-nums}
 <body>
 <div class="wrap">
   <header>
-    <h1>Лісовий мотив — розміри звіра</h1>
-    <p class="lede">Дві сімʼї однієї розкладки, по кілька розмірів звіра в кожній. Під кожним екраном —
-      відсоток ширини, який він займає, щоб можна було просто назвати число.
-      Перемикай чуття: довгі підписи на кшталт «дотики тілом» ламаються раніше за короткі.
+    <h1>Лісовий мотив — рядок згори</h1>
+    <p class="lede">Звір по центру, над ним один рядок: назва чуття, число, підпис.
+      Чотири способи посадити ці три частини на спільну вертикальну вісь, щоб нічого не плавало.
       <b style="color:#E4EFDD">Тапни по тварині</b> — відкриється факт про неї; тап будь-де повертає назад.</p>
     <div class="bar">
+      <span class="lbl">Чуття</span>
       <button class="chip" data-sense="0">5 · Бачу</button>
       <button class="chip" data-sense="1">4 · Чую</button>
       <button class="chip" data-sense="2">3 · Відчуваю</button>
       <button class="chip" data-sense="3">2 · Нюхаю</button>
       <button class="chip" data-sense="4">1 · Смакую</button>
+    </div>
+    <div class="bar">
+      <span class="lbl">Розмір звіра</span>
+      <button class="chip" data-size="88">88%</button>
+      <button class="chip" data-size="100">100%</button>
+      <button class="chip" data-size="115">115%</button>
+      <button class="chip" data-size="140">140%</button>
     </div>
   </header>
   <div id="board"></div>
@@ -485,8 +504,8 @@ const BOTANY = (() => {
   return { LEAF, back, mid, front, topLeft, topRight, sideL, sideR, vine, bloom, fireflies };
 })();
 
-/* Forest motif, size study. Two families of the two-column layout,
-   several animal sizes each. Tap the animal for the fact card. */
+/* Hero animal, one-line header above it.
+   Four ways to lock "Чую · 4 · звуки" onto a single vertical axis. */
 
 const S = [
   { name:"Бачу",     n:5, sub:"речей навколо", art:"spider",  latin:"Павук-стрибун", lat:"Salticidae",
@@ -501,65 +520,56 @@ const S = [
     why:"Смакові рецептори вкривають усе тіло — близько 175 000. Він пробує воду на смак кожним сантиметром себе." },
 ];
 
-const ACTS = `<div class="sc-acts">
-    <button class="btn pri">${ICON.check}Готово</button>
-    <button class="btn sq" aria-label="Сказати">${ICON.mic}</button>
+/* <i class="bl"></i> is a zero-height inline-block: its box bottom sits exactly on the
+   baseline of the line it is in, so the checker can measure baselines instead of guessing. */
+const BL = '<i class="bl"></i>';
+const line = (cls, s) => `<div class="topline ${cls}">
+    <span class="nm">${s.name}${BL}</span>
+    <span class="nu">${s.n}${BL}</span>
+    <span class="lb">${s.sub}${BL}</span>
   </div>`;
 
-/* звір ліворуч, число й підпис праворуч — обидва на одній оптичній осі */
-const side = (s, w) => `<div class="sc vside">
-    <span class="pill abs">${s.name}</span>
-    <div class="band">
-      <div class="beast" style="--w:${w}%" data-fact>${FAUNA[s.art]}</div>
-      <div class="txt"><div class="num">${s.n}</div><div class="lbl">${s.sub}</div></div>
-    </div>
-    ${ACTS}
-  </div>`;
-
-/* звір-герой, підпис одним рядком по центру під ним */
-const hero = (s, w) => `<div class="sc vhero">
-    <span class="pill abs">${s.name}</span>
-    <div class="band"><div class="heroslot" style="--w:${w}%">
-      <div class="beast" data-fact>${FAUNA[s.art]}</div></div></div>
-    <div class="line"><span class="num">${s.n}</span><span class="lbl">${s.sub}</span></div>
-    ${ACTS}
-  </div>`;
-
-const ROWS = [
-  { title:"Звір ліворуч, підпис праворуч", sizes:[55, 63, 71, 79], fn:side,
-    note:"Звір притиснутий до лівого краю, число з підписом — до правого. Центр звіра й центр тексту на одній горизонталі, без розбігу. На 79% колонка тексту стає вузькою — видно, де «дотики тілом» перестають вміщатись у рядок." },
-  { title:"Звір-герой, підпис по центру", sizes:[88, 100, 115, 140], fn:hero,
-    note:"Звір забирає майже весь екран, число з підписом стоять одним рядком по центру під ним. На 140% він навмисно виходить за краї — читається як портрет, а не як іконка. Відсоток — це ширина слота, а не самої тварини: малюнок не заповнює свій квадрат, тому видимий звір завжди трохи менший за число." },
+const TAKES = [
+  { id:"tA", title:"A · Спільна базова лінія",
+    note:"Кеглі різні, але всі три сидять на одній базовій лінії — так, як це робить набірник. Найтипографічніший варіант, «4» домінує." },
+  { id:"tB", title:"B · Капітеллю",
+    note:"Усе великими літерами з розрядкою, число трохи більше за решту. Базова лінія спільна, верхні межі теж збігаються, бо великі літери однакової висоти." },
+  { id:"tC", title:"C · Одна пілюля",
+    note:"Уся строка — один чип. Вирівнювання не на совісті шрифту: воно задане контейнером, елементи центруються по вертикалі всередині." },
+  { id:"tD", title:"D · Один кегль",
+    note:"Усі три одного розміру, число виділене лише кольором і жирністю. Розбігу не може бути в принципі — нічого розбігатись." },
 ];
 
-const fact = s => `<div class="fact-in">
-    <div class="fact-art">${FAUNA[s.art]}</div>
-    <div class="fact-name">${s.latin}</div>
-    <div class="fact-lat">${s.lat}</div>
-    <div class="fact-why">${s.why}</div>
-    <div class="fact-hint">тапни будь-де, щоб повернутись</div>
-  </div>`;
-
-let sense = 1;
+let sense = 3;   /* «Нюхаю · 2 · запахи» — приклад із твого повідомлення */
+let size  = 115;
 
 function render() {
   const s = S[sense];
-  document.getElementById("board").innerHTML = ROWS.map(R => `
-    <section class="rowblock">
-      <h2>${R.title}</h2>
-      <p class="rnote">${R.note}</p>
-      <div class="row">${R.sizes.map(w => `
-        <figure class="cell">
-          <div class="stage st-fauna">
-            <div class="watch"><div class="screen">
-              <div class="scene"><div class="fx-shaft"></div></div>
-              ${R.fn(s, w)}
-              <div class="fact">${fact(s)}</div>
-            </div></div>
+  document.getElementById("board").innerHTML = TAKES.map(T => `
+    <figure class="cell">
+      <div class="stage st-fauna">
+        <div class="watch"><div class="screen">
+          <div class="scene"><div class="fx-shaft"></div></div>
+          <div class="sc vhero">
+            ${line(T.id, s)}
+            <div class="band"><div class="heroslot" style="--w:${size}%">
+              <div class="beast" data-fact>${FAUNA[s.art]}</div></div></div>
+            <div class="sc-acts">
+              <button class="btn pri">${ICON.check}Готово</button>
+              <button class="btn sq" aria-label="Сказати">${ICON.mic}</button>
+            </div>
           </div>
-          <figcaption>${w}%</figcaption>
-        </figure>`).join("")}</div>
-    </section>`).join("");
+          <div class="fact"><div class="fact-in">
+            <div class="fact-art">${FAUNA[s.art]}</div>
+            <div class="fact-name">${s.latin}</div>
+            <div class="fact-lat">${s.lat}</div>
+            <div class="fact-why">${s.why}</div>
+            <div class="fact-hint">тапни будь-де, щоб повернутись</div>
+          </div></div>
+        </div></div>
+      </div>
+      <figcaption><b>${T.title}</b><span>${T.note}</span></figcaption>
+    </figure>`).join("");
 
   document.querySelectorAll(".scene").forEach(sc =>
     sc.insertAdjacentHTML("beforeend",
@@ -568,11 +578,14 @@ function render() {
 
   document.querySelectorAll("[data-sense]").forEach(b =>
     b.setAttribute("aria-pressed", +b.dataset.sense === sense));
+  document.querySelectorAll("[data-size]").forEach(b =>
+    b.setAttribute("aria-pressed", +b.dataset.size === size));
 }
 
 document.addEventListener("click", e => {
-  const chip = e.target.closest("[data-sense]");
-  if (chip) { sense = +chip.dataset.sense; render(); return; }
+  const c = e.target.closest("[data-sense]"), z = e.target.closest("[data-size]");
+  if (c) { sense = +c.dataset.sense; render(); return; }
+  if (z) { size = +z.dataset.size; render(); return; }
 
   const scr = e.target.closest(".screen");
   if (scr?.classList.contains("facted")) {
