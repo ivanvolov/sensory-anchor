@@ -255,8 +255,12 @@ body{background:#000;display:grid;place-items:center;padding:0;overflow:hidden}
 #sc.swap{animation:swap .34s cubic-bezier(.22,.9,.3,1) both}
 @keyframes swap{from{opacity:0;transform:translateY(9px) scale(.975)}}
 
-/* vine timer */
-.st-fauna .vine .stem{animation:none;transition:stroke-dashoffset .9s linear}
+/* vine timer — bigger now that the chip is gone from this screen */
+.st-fauna .vine{width:202px;height:202px}
+.st-fauna .dial-t{font-size:48px;font-weight:700;letter-spacing:-.025em}
+.st-fauna .dial::before{width:160px;height:84px}
+.st-fauna .sc-mid .sub{font-size:13px;margin-top:4px}
+.st-fauna .vine .stem{animation:none;transition:stroke-dashoffset .95s linear}
 .vine .pop{transform-box:fill-box;transform-origin:center;
   animation:pop .5s cubic-bezier(.34,1.6,.64,1) both}
 @keyframes pop{from{transform:scale(0) rotate(-40deg)}}
@@ -491,8 +495,14 @@ document.querySelector('.scene').insertAdjacentHTML('beforeend',
    Locked design: chip header line, animal at 72%, no page chrome.
    ?auto=1 plays the run hands-free (used for the screen recording). */
 
-const SIZE  = 72;   /* animal slot, % of content width */
-const TOTAL = 7;    /* demo countdown in seconds, stands in for 30 min */
+const SIZE  = 72;      /* animal slot, % of content width */
+
+/* The ring is a real 30-minute cycle. The demo joins it near the end and runs
+   time faster than the wall clock, so the arc matches the numbers instead of
+   filling from zero in a few seconds. */
+const CYCLE = 30 * 60; /* повний цикл, секунд */
+const START = 90;      /* скільки лишилось на момент, коли демо підхоплює */
+const SPEED = 10;      /* секунд таймера за одну реальну секунду */
 
 const S = [
   { name:"Бачу",     n:5, sub:"речей навколо", art:"spider",  latin:"Павук-стрибун", lat:"Salticidae",
@@ -523,25 +533,24 @@ const ACTS = `<div class="sc-acts">
     <button class="btn sq" data-act="mic" aria-label="Сказати">${ICON.mic}</button>
   </div>`;
 
-const LEAVES = 9;
-function vineAt(pct) {
-  const C = 351.86, off = C * (1 - pct);
-  let leaves = "";
-  for (let i = 0; i < LEAVES; i++) {
-    const frac = i / (LEAVES - 1);
-    if (frac > pct + 0.02) continue;
-    const deg = -90 + frac * 360, rad = (deg * Math.PI) / 180;
-    const x = 64 + 56 * Math.cos(rad), y = 64 + 56 * Math.sin(rad);
-    const fresh = frac > pct - 0.12 ? ' class="pop"' : "";
-    leaves += `<g${fresh} transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${(deg + (i % 2 ? 128 : -128)).toFixed(1)}) scale(.5)">
-        <path d="${BOTANY.LEAF}" fill="#7FC07A"/></g>`;
-  }
+const LEAVES = 9, VC = 351.86;
+
+function leafG(i, fresh) {
+  const frac = i / (LEAVES - 1);
+  const deg = -90 + frac * 360, rad = (deg * Math.PI) / 180;
+  const x = 64 + 56 * Math.cos(rad), y = 64 + 56 * Math.sin(rad);
+  return `<g${fresh ? ' class="pop"' : ''} transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${(deg + (i % 2 ? 128 : -128)).toFixed(1)}) scale(.5)">
+      <path d="${BOTANY.LEAF}" fill="#7FC07A"/></g>`;
+}
+const grown = pct => [...Array(LEAVES).keys()].filter(i => i / (LEAVES - 1) <= pct + 0.02);
+
+function vineSvg(pct) {
   return `<svg class="ring vine" viewBox="0 0 128 128">
       <circle cx="64" cy="64" r="56" fill="none" stroke="#1E3B28" stroke-width="6"/>
       <circle class="stem" cx="64" cy="64" r="56" fill="none" stroke="#4E9B55" stroke-width="6"
-              stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${off.toFixed(1)}"
+              stroke-linecap="round" stroke-dasharray="${VC}" stroke-dashoffset="${(VC * (1 - pct)).toFixed(1)}"
               transform="rotate(-90 64 64)"/>
-      ${leaves}
+      <g class="leaves">${grown(pct).map(i => leafG(i, false)).join("")}</g>
     </svg>`;
 }
 
@@ -549,7 +558,8 @@ const mmss = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2
 const sc = () => document.getElementById("sc");
 const screenEl = () => document.querySelector(".screen");
 
-let state = "timer", step = 0, left = TOTAL, tick = null;
+let state = "timer", step = 0, left = START, tick = null;
+const pct = () => (CYCLE - left) / CYCLE;
 
 function paint(html) {
   const el = sc();
@@ -562,11 +572,25 @@ const beast = s => `<div class="band"><div class="heroslot" style="--w:${SIZE}%"
     <div class="beast" data-fact>${FAUNA[s.art]}</div></div></div>`;
 
 function viewTimer() {
-  paint(`${chipT("5·4·3·2·1")}
-    <div class="sc-mid">
-      <div class="dial">${vineAt((TOTAL - left) / TOTAL)}<span class="dial-t">${mmss(left)}</span></div>
+  paint(`<div class="sc-mid">
+      <div class="dial">${vineSvg(pct())}<span class="dial-t">${mmss(left)}</span></div>
       <div class="sub">до наступної зупинки</div>
     </div>`);
+}
+
+/* Ticking mutates the two things that change. Re-painting the whole screen every
+   second was what made the countdown jump — it replayed the enter animation. */
+function tickTimer() {
+  const t = document.querySelector(".dial-t");
+  if (t) t.textContent = mmss(left);
+  const stem = document.querySelector(".vine .stem");
+  if (stem) stem.setAttribute("stroke-dashoffset", (VC * (1 - pct())).toFixed(1));
+  const g = document.querySelector(".vine .leaves");
+  if (g) {
+    const need = grown(pct());
+    while (g.children.length < need.length)
+      g.insertAdjacentHTML("beforeend", leafG(need[g.children.length], true));
+  }
 }
 
 function viewStep() {
@@ -617,14 +641,16 @@ function setFact(s) {
 }
 
 function startTimer() {
-  state = "timer"; step = 0; left = TOTAL;
+  state = "timer"; step = 0; left = START;
   viewTimer();
   clearInterval(tick);
   tick = setInterval(() => {
-    left -= 1;
-    if (left <= 0) { clearInterval(tick); left = 0; viewTimer();
-      setTimeout(() => { state = "step"; viewStep(); }, 700); }
-    else viewTimer();
+    left = Math.max(0, left - SPEED);
+    tickTimer();
+    if (left === 0) {
+      clearInterval(tick);
+      setTimeout(() => { state = "step"; viewStep(); }, 900);
+    }
   }, 1000);
 }
 
@@ -676,7 +702,7 @@ async function point(sel) {
 
 async function autoRun() {
   startTimer();
-  await wait(TOTAL * 1000 + 1200);
+  await wait((START / SPEED) * 1000 + 1500);
   await point('[data-act="ok"]');  await wait(900);   /* 5 — тапом */
   await point('[data-fact]');      await wait(2600);  /* пасхалка */
   await point('.fact.on');         await wait(700);
